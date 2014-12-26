@@ -7,13 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB077AC31A2E171A00FC6B60 /* Place.m in Sources */ = {isa = PBXBuildFile; fileRef = AB077AC21A2E171A00FC6B60 /* Place.m */; };
+		AB077AC61A2E18FC00FC6B60 /* PlacesParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AB077AC51A2E18FC00FC6B60 /* PlacesParser.m */; };
+		AB27BBE51A453F3F00636E78 /* DetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBE41A453F3F00636E78 /* DetailCell.m */; };
+		AB27BBE81A489A7000636E78 /* SearchTVController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBE71A489A7000636E78 /* SearchTVController.m */; };
+		AB27BBEB1A489A8700636E78 /* MainTVController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBEA1A489A8700636E78 /* MainTVController.m */; };
+		AB27BBEE1A48A61500636E78 /* multiTableViewAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBED1A48A61500636E78 /* multiTableViewAppDelegate.m */; };
+		AB27BBFB1A48C65400636E78 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB747BB1A2C42CC00A14536 /* Main.storyboard */; };
+		AB27BBFE1A48E03600636E78 /* placeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBFD1A48E03600636E78 /* placeTableCell.m */; };
+		AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */; };
+		AB91DB001A40CF4600E02763 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */; };
 		ABB747B41A2C42CC00A14536 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B31A2C42CC00A14536 /* main.m */; };
 		ABB747B71A2C42CC00A14536 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B61A2C42CC00A14536 /* AppDelegate.m */; };
 		ABB747BA1A2C42CC00A14536 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B91A2C42CC00A14536 /* ViewController.m */; };
-		ABB747BD1A2C42CC00A14536 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABB747BB1A2C42CC00A14536 /* Main.storyboard */; };
 		ABB747BF1A2C42CC00A14536 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB747BE1A2C42CC00A14536 /* Images.xcassets */; };
 		ABB747C21A2C42CC00A14536 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB747C01A2C42CC00A14536 /* LaunchScreen.xib */; };
 		ABB747CE1A2C42CD00A14536 /* Video_JSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747CD1A2C42CD00A14536 /* Video_JSONTests.m */; };
+		BC3186C81BA5A7446EC5EF21 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D0EDC5721A34A4FE18470B4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +37,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2D0EDC5721A34A4FE18470B4 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB077AC11A2E171A00FC6B60 /* Place.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Place.h; sourceTree = "<group>"; };
+		AB077AC21A2E171A00FC6B60 /* Place.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Place.m; sourceTree = "<group>"; };
+		AB077AC41A2E18FC00FC6B60 /* PlacesParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesParser.h; sourceTree = "<group>"; };
+		AB077AC51A2E18FC00FC6B60 /* PlacesParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesParser.m; sourceTree = "<group>"; };
+		AB27BBE31A453F3F00636E78 /* DetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailCell.h; sourceTree = "<group>"; };
+		AB27BBE41A453F3F00636E78 /* DetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailCell.m; sourceTree = "<group>"; };
+		AB27BBE61A489A7000636E78 /* SearchTVController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTVController.h; sourceTree = "<group>"; };
+		AB27BBE71A489A7000636E78 /* SearchTVController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTVController.m; sourceTree = "<group>"; };
+		AB27BBE91A489A8700636E78 /* MainTVController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTVController.h; sourceTree = "<group>"; };
+		AB27BBEA1A489A8700636E78 /* MainTVController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTVController.m; sourceTree = "<group>"; };
+		AB27BBEC1A48A61500636E78 /* multiTableViewAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multiTableViewAppDelegate.h; sourceTree = "<group>"; };
+		AB27BBED1A48A61500636E78 /* multiTableViewAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = multiTableViewAppDelegate.m; sourceTree = "<group>"; };
+		AB27BBFA1A48C60500636E78 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		AB27BBFC1A48E03600636E78 /* placeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = placeTableCell.h; sourceTree = "<group>"; };
+		AB27BBFD1A48E03600636E78 /* placeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = placeTableCell.m; sourceTree = "<group>"; };
+		AB27BC001A48E76C00636E78 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/placeTableCell.xib; sourceTree = "<group>"; };
+		AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		ABB747AE1A2C42CC00A14536 /* Video_JSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Video_JSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747B21A2C42CC00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747B31A2C42CC00A14536 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,6 +68,8 @@
 		ABB747C71A2C42CD00A14536 /* Video_JSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Video_JSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747CC1A2C42CD00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747CD1A2C42CD00A14536 /* Video_JSONTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Video_JSONTests.m; sourceTree = "<group>"; };
+		E2DCBBB9089804ECDF3F023B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F0F2E2EBAB66322FAA9ECA4B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB91DB001A40CF4600E02763 /* CoreLocation.framework in Frameworks */,
+				BC3186C81BA5A7446EC5EF21 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +92,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04F227FAE354A56E34E237E3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F0F2E2EBAB66322FAA9ECA4B /* Pods.debug.xcconfig */,
+				E2DCBBB9089804ECDF3F023B /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		ABB747A51A2C42CC00A14536 = {
 			isa = PBXGroup;
 			children = (
 				ABB747B01A2C42CC00A14536 /* Video_JSON */,
 				ABB747CA1A2C42CD00A14536 /* Video_JSONTests */,
 				ABB747AF1A2C42CC00A14536 /* Products */,
+				04F227FAE354A56E34E237E3 /* Pods */,
+				EA1D052E75AD1518AB850AC8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -81,14 +124,29 @@
 		ABB747B01A2C42CC00A14536 /* Video_JSON */ = {
 			isa = PBXGroup;
 			children = (
+				AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */,
 				ABB747B51A2C42CC00A14536 /* AppDelegate.h */,
 				ABB747B61A2C42CC00A14536 /* AppDelegate.m */,
 				ABB747B81A2C42CC00A14536 /* ViewController.h */,
 				ABB747B91A2C42CC00A14536 /* ViewController.m */,
+				AB27BBEC1A48A61500636E78 /* multiTableViewAppDelegate.h */,
+				AB27BBED1A48A61500636E78 /* multiTableViewAppDelegate.m */,
+				AB077AC41A2E18FC00FC6B60 /* PlacesParser.h */,
+				AB077AC51A2E18FC00FC6B60 /* PlacesParser.m */,
+				AB077AC11A2E171A00FC6B60 /* Place.h */,
+				AB077AC21A2E171A00FC6B60 /* Place.m */,
 				ABB747BB1A2C42CC00A14536 /* Main.storyboard */,
+				AB27BBE31A453F3F00636E78 /* DetailCell.h */,
+				AB27BBE41A453F3F00636E78 /* DetailCell.m */,
 				ABB747BE1A2C42CC00A14536 /* Images.xcassets */,
 				ABB747C01A2C42CC00A14536 /* LaunchScreen.xib */,
 				ABB747B11A2C42CC00A14536 /* Supporting Files */,
+				AB27BBE61A489A7000636E78 /* SearchTVController.h */,
+				AB27BBE71A489A7000636E78 /* SearchTVController.m */,
+				AB27BBE91A489A8700636E78 /* MainTVController.h */,
+				AB27BBEA1A489A8700636E78 /* MainTVController.m */,
+				AB27BBFC1A48E03600636E78 /* placeTableCell.h */,
+				AB27BBFD1A48E03600636E78 /* placeTableCell.m */,
 			);
 			path = Video_JSON;
 			sourceTree = "<group>";
@@ -119,6 +177,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EA1D052E75AD1518AB850AC8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */,
+				2D0EDC5721A34A4FE18470B4 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +193,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = ABB747D11A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSON" */;
 			buildPhases = (
+				8CDCB2E1FC21E7669B5EFBE4 /* Check Pods Manifest.lock */,
 				ABB747AA1A2C42CC00A14536 /* Sources */,
 				ABB747AB1A2C42CC00A14536 /* Frameworks */,
 				ABB747AC1A2C42CC00A14536 /* Resources */,
+				C73C47976BA2B21A3ECE0ED2 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,7 +268,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABB747BD1A2C42CC00A14536 /* Main.storyboard in Resources */,
+				AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */,
+				AB27BBFB1A48C65400636E78 /* Main.storyboard in Resources */,
 				ABB747C21A2C42CC00A14536 /* LaunchScreen.xib in Resources */,
 				ABB747BF1A2C42CC00A14536 /* Images.xcassets in Resources */,
 			);
@@ -214,14 +284,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		8CDCB2E1FC21E7669B5EFBE4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C73C47976BA2B21A3ECE0ED2 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		ABB747AA1A2C42CC00A14536 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB27BBEB1A489A8700636E78 /* MainTVController.m in Sources */,
+				AB077AC61A2E18FC00FC6B60 /* PlacesParser.m in Sources */,
 				ABB747BA1A2C42CC00A14536 /* ViewController.m in Sources */,
+				AB27BBE51A453F3F00636E78 /* DetailCell.m in Sources */,
 				ABB747B71A2C42CC00A14536 /* AppDelegate.m in Sources */,
 				ABB747B41A2C42CC00A14536 /* main.m in Sources */,
+				AB27BBFE1A48E03600636E78 /* placeTableCell.m in Sources */,
+				AB27BBE81A489A7000636E78 /* SearchTVController.m in Sources */,
+				AB077AC31A2E171A00FC6B60 /* Place.m in Sources */,
+				AB27BBEE1A48A61500636E78 /* multiTableViewAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +354,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB27BC001A48E76C00636E78 /* en */,
+			);
+			name = placeTableCell.xib;
+			sourceTree = "<group>";
+		};
 		ABB747BB1A2C42CC00A14536 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -256,6 +374,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				ABB747C11A2C42CC00A14536 /* Base */,
+				AB27BBFA1A48C60500636E78 /* en */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -341,6 +460,7 @@
 		};
 		ABB747D21A2C42CD00A14536 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0F2E2EBAB66322FAA9ECA4B /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Video_JSON/Info.plist;
@@ -351,6 +471,7 @@
 		};
 		ABB747D31A2C42CD00A14536 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2DCBBB9089804ECDF3F023B /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Video_JSON/Info.plist;
@@ -412,6 +533,7 @@
 				ABB747D31A2C42CD00A14536 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		ABB747D41A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSONTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +542,7 @@
 				ABB747D61A2C42CD00A14536 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

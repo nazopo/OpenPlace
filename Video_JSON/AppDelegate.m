@@ -16,6 +16,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSSetUncaughtExceptionHandler(&exceptionHandler);
     // Override point for customization after application launch.
     return YES;
 }
@@ -25,6 +26,14 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
+void exceptionHandler(NSException *exception)
+{
+    NSLog(@"%@",[exception name]);
+    NSLog(@"%@",[exception reason]);
+    NSLog(@"%@",[exception userInfo]);
+    NSLog(@"%@",[exception callStackSymbols]);
+    NSLog(@"%@",[exception callStackReturnAddresses]);
+}
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
