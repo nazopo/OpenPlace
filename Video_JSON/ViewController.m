@@ -16,7 +16,7 @@
 
 @implementation ViewController
 @synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp;
-int i = 0;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -86,7 +86,7 @@ int i = 0;
     self.autocompleteTableView.frame = frame;
 }
 
--(void)getJSONPlaceDetails:(NSString *) place_id {
+-(void)getJSONPlaceDetails:(NSString *) place_id completion:(void (^)(void))dataReceived{
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",place_id];
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
@@ -124,35 +124,41 @@ int i = 0;
              //            }
              //            NSLog(@"Array Size %lu",self.placeDetails.count);
              //            NSLog(@"end of array");
-             i+=1;
-             if(i<self.place_id_storage.count){
-                 [self getJSONPlaceDetails:self.place_id_storage[i]];
-                 NSLog(@"THIS WAS JUST RUN");
-             }
-             else{
-                 NSLog(@"this was just run");
-                 i = 0;
-                 [self.tableView reloadData];
-             }
+             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+//                 NSLog(@"THIS IS TO SEE WHEN IT FINISHES %@",self.rawDetails);
+                              if (dataReceived != nil)
+                     dataReceived();
+                 
+             }];
+             
          }
      }];
 }
 
 -(void)createFavoritePlaces
 {
-    
+    for(int i = 0; i<self.placeDetails.count; i++){
+        NSLog(@"%@",[self.placeDetails[i] name]  );
+    }
    // NSLog(@"Array Size %lu",self.placeDetails.count);
 //    NSLog(@"end of array beforehand");
     [self.placeDetails removeAllObjects];
 //    NSLog(@"END OF LOOP");
 //    NSLog(@"THIS IS THE ENTIRE BATCH OF PLACEID %@",self.place_id_storage);
-    self.rawDetails = nil;
-    
+    for(int i = 0; i<self.place_id_storage.count; i++)
+    {
 //        NSLog(@"THIS IS THE PLACEID FOR THE SPECIFIC INDEX %@",self.place_id_storage[i]);
+        self.rawDetails = nil;
+        [self getJSONPlaceDetails:self.place_id_storage[i] completion:^void {
+             NSLog(@"PLACEID SPECIFIC INDEX inside %@ and current index %d",self.place_id_storage[i],i);
+            NSLog(@"MAIN OUTPUT TO WORRY ABOUT %@",self.rawDetails);
+            
+           
+            if(i==self.place_id_storage.count - 1){
+                [self.tableView reloadData];}
+        }];
         
-        [self getJSONPlaceDetails:self.place_id_storage[0]];
-        
-    
+    }
    
     
 }
