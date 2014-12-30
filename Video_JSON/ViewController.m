@@ -27,7 +27,8 @@ int i = 0;
     // Do any additional setup after loading the view, typically from a nib.
     self.paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     self.documentsDirectory = [self.paths objectAtIndex:0];
-    self.filePath = [self.documentsDirectory stringByAppendingPathComponent:FILE_NAME];
+    self.filePath = [[NSBundle mainBundle] pathForResource:@"PLACE_ID_STORAGE"
+                                                    ofType:@"plist"];
     self.autocompletePlaces = [[NSMutableArray alloc] init];
     self.pastPlaces = [[NSMutableArray alloc] init];
     self.placesAsProperties = [[NSMutableArray alloc] init];
@@ -36,7 +37,8 @@ int i = 0;
     self.placeDetails = [[NSMutableArray alloc] init];
     self.posts = [[NSMutableDictionary alloc] init];
     self.rawDetails = [[NSMutableDictionary alloc] init];
-    self.place_id_storage = [[NSMutableArray alloc] init];
+    self.place_id_storage = [[NSMutableArray alloc] initWithContentsOfFile:self.filePath];
+    NSLog(@"TO SEE IF THERE %@",self.place_id_storage);
     //autocompleteTextField = [[UITextField alloc] initWithFrame:CGRectMake(0,80, 900, 120)];
     self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,80, 420, 120)];
     self.autocompleteTableView.delegate = self;
@@ -326,10 +328,8 @@ int i = 0;
     cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.row] name];
   
         cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.row] address];
-        NSLog(@"CALLED INDEX %lu",indexPath.row);
-        NSLog(@"IMAGE DATA RAW %@",[UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.row] imgData]]);
         cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.row] imgData]];
-        NSLog(@"IMAGE DATA CELL %@",cell.placeImage.image);
+        
 }
 }
 
@@ -351,6 +351,9 @@ int i = 0;
     self.autocompleteTextField.text = selectedCell.textLabel.text;
     if(![self.place_id_storage containsObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]]){
         [self.place_id_storage addObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]];
+        NSLog(@"BEING WRITTEN %@",self.place_id_storage);
+        [self.place_id_storage writeToFile:self.filePath atomically:YES];
+        
         [self createFavoritePlaces];
     }
     self.autocompleteTableView.hidden = YES;
