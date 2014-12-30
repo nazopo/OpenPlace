@@ -15,4 +15,10 @@
 @property (strong, nonatomic) NSURL *image_url;
 @property (nonatomic) CLLocationCoordinate2D location;
 @property (nonatomic) BOOL isOpen;
+@property (strong, nonatomic) NSString *urlString;
+@property (strong, nonatomic) NSURL *url;
+@property (strong, nonatomic) NSData *imgData;
+@property (strong, nonatomic) NSData *base64Encoded;
+@property (nonatomic) BOOL hasPhotos;
+@property (nonatomic, assign) BOOL hasHours;
 @end

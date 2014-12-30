@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Foundation/Foundation.h>
 @interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource>{
     
 
@@ -26,12 +26,16 @@
 @property (nonatomic, retain) NSMutableArray *placesAsProperties;
 @property (nonatomic, retain) NSMutableArray *placesAsPropertiesTemp;
 @property (nonatomic, retain) NSMutableArray *placeDetailsTemp;
-@property (nonatomic, retain) NSMutableArray *placeDetails;
+@property (nonatomic, strong) NSMutableArray *placeDetails;
 @property (nonatomic, strong) UITableView *autocompleteTableView;
 @property (atomic, strong) NSMutableDictionary *posts;
 @property (atomic, strong) NSMutableDictionary *rawDetails;
 @property (atomic, strong) NSMutableArray *place_id_storage;
-
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+@property (nonatomic, strong) UITableViewController *favorites_manager;
+@property (nonatomic, strong) NSArray *paths;
+@property (nonatomic, strong) NSString *documentsDirectory;
+@property (nonatomic, strong) NSString *filePath;
 
 
 

@@ -10,16 +10,24 @@
 #import "Place.h"
 #import "placeTableCell.h"
 #import "DetailCell.h"
+#define UIColorFromRGB(rgbValue) \
+[UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
+blue:((float)((rgbValue & 0x0000FF) >>  0))/255.0 \
+alpha:1.0]
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
-@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp;
-
+@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp, refreshControl, favorites_manager;
+int i = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    self.documentsDirectory = [self.paths objectAtIndex:0];
+    self.filePath = [self.documentsDirectory stringByAppendingPathComponent:FILE_NAME];
     self.autocompletePlaces = [[NSMutableArray alloc] init];
     self.pastPlaces = [[NSMutableArray alloc] init];
     self.placesAsProperties = [[NSMutableArray alloc] init];
@@ -30,7 +38,7 @@
     self.rawDetails = [[NSMutableDictionary alloc] init];
     self.place_id_storage = [[NSMutableArray alloc] init];
     //autocompleteTextField = [[UITextField alloc] initWithFrame:CGRectMake(0,80, 900, 120)];
-    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,80, 380, 120)];
+    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,80, 420, 120)];
     self.autocompleteTableView.delegate = self;
     self.autocompleteTextField.delegate = self;
     self.autocompleteTextField.placeholder=@"Type a name";
@@ -40,13 +48,17 @@
     self.autocompleteTableView.dataSource = self;
     self.autocompleteTableView.scrollEnabled = YES;
     self.autocompleteTableView.hidden = YES;
+    self.favorites_manager = [[UITableViewController alloc] init];
     [self.view addSubview:self.autocompleteTableView];
     [self.autocompleteTableView addObserver:self forKeyPath:@"contentSize" options:0 context:NULL];
     [autocompleteTextField addTarget:self
                               action:@selector(textFieldDidChange:)
                     forControlEvents:UIControlEventEditingChanged];
+    self.favorites_manager.tableView = self.tableView;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    self.favorites_manager.refreshControl = self.refreshControl;
 }
-
 
 
 -(void)getJSONData: (NSString *) input completion:(void (^)(void))dataReceived
@@ -86,8 +98,22 @@
     self.autocompleteTableView.frame = frame;
 }
 
--(void)getJSONPlaceDetails:(NSString *) place_id completion:(void (^)(void))dataReceived{
+- (void)refresh:(id)sender
+{
+    [self.favorites_manager.refreshControl beginRefreshing];
+    NSLog(@"IT IS CALLING IT");
+    [self createFavoritePlaces];
+    
+}
+
+-(void)getJSONPlaceDetails:(NSString *) place_id{
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",place_id];
+    NSLog(@"URL TO TEST %@", urlString);
+    Place *individualPlace = [[Place alloc] init];
+    static NSURLSession* sharedSessionMainQueue = nil;
+    if(!sharedSessionMainQueue){
+        sharedSessionMainQueue = [NSURLSession sessionWithConfiguration:nil delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    }
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -95,72 +121,110 @@
         {
                   if(error){
              NSLog(@"%@",[error localizedDescription]);
-         }
+                           }
          else{
              self.rawDetails = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
              NSDictionary *placeInfo = self.rawDetails[@"result"];
              
              //            NSLog(@"current place_id %@",placeInfo[@"place_id"]);
              
-             Place *individualPlace = [[Place alloc] init];
+             
              individualPlace.name = placeInfo[@"name"];
              //            NSLog(@"this is the placeInfo %@",placeInfo[@"name"]);
              individualPlace.address = placeInfo[@"formatted_address"];
              individualPlace.location = CLLocationCoordinate2DMake([placeInfo[@"geometry"][@"location"][@"lat"] doubleValue], [placeInfo[@"geometry"][@"location"][@"lng"] doubleValue]);
-             individualPlace.isOpen = placeInfo[@"opening_hours"][@"open_now"];
-             individualPlace.place_id = placeInfo[@"place_id"];
-             [self.placeDetails addObject:individualPlace];
+//             NSLog(@"%s\n", object_getClassName([[individualPlace hasHours] class]));
+             individualPlace.hasHours = !(placeInfo[@"opening_hours"][@"open_now"] == nil);
+         //    NSLog(@"printing before %d",[individualPlace.hasHours ]);
              
+            // NSLog(@"ALL KEYS %d",[photoDict isKindOfClass:[NSArray class]]);
              
-             //NSLog(@"THIS IS THE TRUTH VALUE %@",individualPlace.place_id);
-             
-             
-             //            NSLog(@"THIS IS CALLING THE SIZE IN THE METHOD %lu",self.placeDetails.count);
-             //
-             //            NSLog(@"THIS IS THE SIZE THAT the array is %lu",self.placeDetails.count);
-             //            NSLog(@"THESE ARE THE KEYS THAT RAE THE RESULT %@",self.place_id_storage);
-             //            for(int i = 0; i<self.placeDetails.count; i++){
-             //                NSLog(@"%@",[self.placeDetails[i] name]  );
-             //            }
-             //            NSLog(@"Array Size %lu",self.placeDetails.count);
-             //            NSLog(@"end of array");
-             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-//                 NSLog(@"THIS IS TO SEE WHEN IT FINISHES %@",self.rawDetails);
-                              if (dataReceived != nil)
-                     dataReceived();
+             if(placeInfo[@"photos"] != nil)
+             {
                  
-             }];
+                 individualPlace.hasPhotos = YES;
+             
+          //  NSLog(@"being run %@",self.rawDetails[@"result"][@"photos"][@"photo_reference"]);
+                 
+                 NSDictionary *photoDict = [[placeInfo objectForKey:@"photos"] objectAtIndex:0];
+                 NSString *photoRef = [photoDict objectForKey:@"photo_reference"];
+                 
+                
+            individualPlace.urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?photoreference=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM&sensor=false&maxwidth=600", photoRef];
+                 NSLog(@"URL TO TEST %@", individualPlace.urlString);
+             individualPlace.url = [NSURL URLWithString:individualPlace.urlString];
+            }
+             else
+                 individualPlace.hasPhotos = NO;
+             id rawIsOpen = placeInfo[@"opening_hours"][@"open_now"];
+             individualPlace.isOpen = [rawIsOpen boolValue];
+             individualPlace.place_id = placeInfo[@"place_id"];
+             if(individualPlace.hasPhotos)
+             {
+                 NSURLSessionDataTask *dataTask =
+                 [sharedSessionMainQueue dataTaskWithURL:individualPlace.url completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+                     //now will be on main thread
+                     individualPlace.imgData = data;
+                      BOOL hasData = individualPlace.imgData;
+                      NSLog(@"RAW DATA %d",hasData);
+                     
+                      //NSString *temp =
+                      //individualPlace.base64Encoded = [individualPlace.imgData base64EncodedDataWithOptions:0];//[temp dataUsingEncoding:NSUTF8StringEncoding];
+                      
+                      // [self didReceiveData];
+                     [self.placeDetails addObject:individualPlace];
+                     
+                     i+=1;
+                     NSLog(@"RAN METHOD");
+                     if(i<self.place_id_storage.count)
+                     {
+                         [self getJSONPlaceDetails:self.place_id_storage[i]];
+                         
+                     }
+                     else
+                     {
+                         
+                         i = 0;
+                         [self didReceiveData];
+                     }
+
+                      }];
+                     [dataTask resume];
+                     
+                 }
+
+             
              
          }
-     }];
+         }];
 }
 
+
+
+-(void)didReceiveData{
+    
+    
+
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        NSLog(@"PERFORMING RELOAD");
+    [self.tableView reloadData];
+        int64_t delayInSeconds = 1.0f;
+        dispatch_time_t popTime =
+        dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        if (self.refreshControl) {
+            NSLog(@"IT FINISHED REFRESHING");
+            [self.favorites_manager.refreshControl endRefreshing];
+        }
+            });
+    }];
+         
+}
 -(void)createFavoritePlaces
 {
-    for(int i = 0; i<self.placeDetails.count; i++){
-        NSLog(@"%@",[self.placeDetails[i] name]  );
-    }
-   // NSLog(@"Array Size %lu",self.placeDetails.count);
-//    NSLog(@"end of array beforehand");
     [self.placeDetails removeAllObjects];
-//    NSLog(@"END OF LOOP");
-//    NSLog(@"THIS IS THE ENTIRE BATCH OF PLACEID %@",self.place_id_storage);
-    for(int i = 0; i<self.place_id_storage.count; i++)
-    {
-//        NSLog(@"THIS IS THE PLACEID FOR THE SPECIFIC INDEX %@",self.place_id_storage[i]);
-        self.rawDetails = nil;
-        [self getJSONPlaceDetails:self.place_id_storage[i] completion:^void {
-             NSLog(@"PLACEID SPECIFIC INDEX inside %@ and current index %d",self.place_id_storage[i],i);
-            NSLog(@"MAIN OUTPUT TO WORRY ABOUT %@",self.rawDetails);
-            
-           
-            if(i==self.place_id_storage.count - 1){
-                [self.tableView reloadData];}
-        }];
-        
-    }
-   
-    
+    self.rawDetails = nil;
+    [self getJSONPlaceDetails:self.place_id_storage[0]];
 }
 
 -(void)textFieldDidChange:(UITextField *)input{
@@ -212,7 +276,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
     }
        // NSLog(@"this is a test of 3.0 status %lu",indexPath.row);
-
     cell.textLabel.text = [[self.placesAsProperties objectAtIndex:indexPath.row] name];
     return cell;
     }
@@ -225,7 +288,11 @@
         {
             [tableView registerNib:[UINib nibWithNibName:@"placeTableCell" bundle:nil] forCellReuseIdentifier:@"placeTableCell"];
             cell = [tableView dequeueReusableCellWithIdentifier:@"placeTableCell"];
-        }
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            self.tableView.rowHeight = UITableViewAutomaticDimension;
+            self.tableView.estimatedRowHeight = 187.0;
+
+                   }
     
         return cell;
     }
@@ -234,28 +301,49 @@
     
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(![tableView isEqual:self.autocompleteTableView])
+        return 187;
+    else
+        return 44;
+        
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DetailCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if(![tableView isEqual:self.autocompleteTableView]){
 //        NSLog(@"this is a test of 2.0 status %lu",indexPath.row);
-    
+//        CGRect frame = CGRectOffset([tableView rectForRowAtIndexPath:indexPath], 0.0, 90.8);
+//    cell.backgroundColor = [[UIView alloc] initWithFrame: frame ];
+        
+        if([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==YES)
+            cell.backgroundColor = UIColorFromRGB(0x84E80C);
+        else if(([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.row] hasHours]==YES))
+            cell.backgroundColor = UIColorFromRGB(0xFF6853);
+        else
+            cell.backgroundColor = UIColorFromRGB(0x808080);
+            
     cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.row] name];
   
         cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.row] address];
+        NSLog(@"CALLED INDEX %lu",indexPath.row);
+        NSLog(@"IMAGE DATA RAW %@",[UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.row] imgData]]);
+        cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.row] imgData]];
+        NSLog(@"IMAGE DATA CELL %@",cell.placeImage.image);
 }
 }
 
+
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if([tableView isEqual:self.autocompleteTableView]){
-       
+    if([tableView isEqual:self.autocompleteTableView])
         return [self.placesAsProperties count];
-    }
-    else if(self.place_id_storage.count>0){
-        return self.placeDetails.count;
-}
-    return 0;
+    else
+        return self.place_id_storage.count;
+
 }
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    
+        return 1;
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath{
     if([tableView isEqual:self.autocompleteTableView]){
@@ -266,7 +354,7 @@
         [self createFavoritePlaces];
     }
     self.autocompleteTableView.hidden = YES;
-        NSLog(@"THIS IS AN OUTPUT TRIIGER");
+        
     
    }
 }
