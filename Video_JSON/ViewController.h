@@ -33,9 +33,7 @@
 @property (atomic, strong) NSMutableArray *place_id_storage;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UITableViewController *favorites_manager;
-@property (nonatomic, strong) NSArray *paths;
-@property (nonatomic, strong) NSString *documentsDirectory;
-@property (nonatomic, strong) NSString *filePath;
+@property (nonatomic, strong) NSUserDefaults *prefs;
 
 
 

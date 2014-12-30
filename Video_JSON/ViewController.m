@@ -25,10 +25,7 @@ int i = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    self.documentsDirectory = [self.paths objectAtIndex:0];
-    self.filePath = [[NSBundle mainBundle] pathForResource:@"PLACE_ID_STORAGE"
-                                                    ofType:@"plist"];
+    self.prefs = [NSUserDefaults standardUserDefaults];
     self.autocompletePlaces = [[NSMutableArray alloc] init];
     self.pastPlaces = [[NSMutableArray alloc] init];
     self.placesAsProperties = [[NSMutableArray alloc] init];
@@ -37,8 +34,8 @@ int i = 0;
     self.placeDetails = [[NSMutableArray alloc] init];
     self.posts = [[NSMutableDictionary alloc] init];
     self.rawDetails = [[NSMutableDictionary alloc] init];
-    self.place_id_storage = [[NSMutableArray alloc] initWithContentsOfFile:self.filePath];
-    NSLog(@"TO SEE IF THERE %@",self.place_id_storage);
+    self.place_id_storage = [[NSMutableArray alloc] init];//[NSMutableArray arrayWithArray:[self.prefs arrayForKey:@"place_id_favorites"]];
+    //NSLog(@"TO SEE IF THERE %@",self.place_id_storage);
     //autocompleteTextField = [[UITextField alloc] initWithFrame:CGRectMake(0,80, 900, 120)];
     self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,80, 420, 120)];
     self.autocompleteTableView.delegate = self;
@@ -60,6 +57,8 @@ int i = 0;
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     self.favorites_manager.refreshControl = self.refreshControl;
+//    if(self.place_id_storage.count > 0)
+//        [self createFavoritePlaces];
 }
 
 
@@ -147,8 +146,9 @@ int i = 0;
                  individualPlace.hasPhotos = YES;
              
           //  NSLog(@"being run %@",self.rawDetails[@"result"][@"photos"][@"photo_reference"]);
-                 
+                 NSLog(@"OBJECT INDEX BEFORE");
                  NSDictionary *photoDict = [[placeInfo objectForKey:@"photos"] objectAtIndex:0];
+                 NSLog(@"OBJECT INDEX AFTER");
                  NSString *photoRef = [photoDict objectForKey:@"photo_reference"];
                  
                 
@@ -313,18 +313,19 @@ int i = 0;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DetailCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"WILL DISPLAY IS BEING CALLED");
     if(![tableView isEqual:self.autocompleteTableView]){
 //        NSLog(@"this is a test of 2.0 status %lu",indexPath.row);
 //        CGRect frame = CGRectOffset([tableView rectForRowAtIndexPath:indexPath], 0.0, 90.8);
 //    cell.backgroundColor = [[UIView alloc] initWithFrame: frame ];
-        
+        NSLog(@"this is being run %lu",self.placeDetails.count);
         if([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==YES)
             cell.backgroundColor = UIColorFromRGB(0x84E80C);
         else if(([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.row] hasHours]==YES))
             cell.backgroundColor = UIColorFromRGB(0xFF6853);
         else
             cell.backgroundColor = UIColorFromRGB(0x808080);
-            
+        NSLog(@"THIS IS RUN AFTERWARDS");
     cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.row] name];
   
         cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.row] address];
@@ -352,7 +353,7 @@ int i = 0;
     if(![self.place_id_storage containsObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]]){
         [self.place_id_storage addObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]];
         NSLog(@"BEING WRITTEN %@",self.place_id_storage);
-        [self.place_id_storage writeToFile:self.filePath atomically:YES];
+        [self.prefs setObject:self.place_id_storage forKey:@"place_id_favorites"];
         
         [self createFavoritePlaces];
     }

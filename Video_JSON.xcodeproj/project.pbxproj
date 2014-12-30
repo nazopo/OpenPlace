@@ -17,7 +17,6 @@
 		AB27BBFE1A48E03600636E78 /* placeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBFD1A48E03600636E78 /* placeTableCell.m */; };
 		AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */; };
 		AB91DB001A40CF4600E02763 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */; };
-		ABB0C10E1A52255400B3DAC8 /* PLACE_ID_STORAGE.plist in Resources */ = {isa = PBXBuildFile; fileRef = ABB0C10D1A52255400B3DAC8 /* PLACE_ID_STORAGE.plist */; };
 		ABB747B41A2C42CC00A14536 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B31A2C42CC00A14536 /* main.m */; };
 		ABB747B71A2C42CC00A14536 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B61A2C42CC00A14536 /* AppDelegate.m */; };
 		ABB747BA1A2C42CC00A14536 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B91A2C42CC00A14536 /* ViewController.m */; };
@@ -56,7 +55,6 @@
 		AB27BBFD1A48E03600636E78 /* placeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = placeTableCell.m; sourceTree = "<group>"; };
 		AB27BC001A48E76C00636E78 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/placeTableCell.xib; sourceTree = "<group>"; };
 		AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		ABB0C10D1A52255400B3DAC8 /* PLACE_ID_STORAGE.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PLACE_ID_STORAGE.plist; sourceTree = "<group>"; };
 		ABB747AE1A2C42CC00A14536 /* Video_JSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Video_JSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747B21A2C42CC00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747B31A2C42CC00A14536 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -158,7 +156,6 @@
 			children = (
 				ABB747B21A2C42CC00A14536 /* Info.plist */,
 				ABB747B31A2C42CC00A14536 /* main.m */,
-				ABB0C10D1A52255400B3DAC8 /* PLACE_ID_STORAGE.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -274,7 +271,6 @@
 				AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */,
 				AB27BBFB1A48C65400636E78 /* Main.storyboard in Resources */,
 				ABB747C21A2C42CC00A14536 /* LaunchScreen.xib in Resources */,
-				ABB0C10E1A52255400B3DAC8 /* PLACE_ID_STORAGE.plist in Resources */,
 				ABB747BF1A2C42CC00A14536 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
