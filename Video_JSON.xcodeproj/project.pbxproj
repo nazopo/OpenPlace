@@ -23,6 +23,8 @@
 		ABB747BF1A2C42CC00A14536 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB747BE1A2C42CC00A14536 /* Images.xcassets */; };
 		ABB747C21A2C42CC00A14536 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB747C01A2C42CC00A14536 /* LaunchScreen.xib */; };
 		ABB747CE1A2C42CD00A14536 /* Video_JSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747CD1A2C42CD00A14536 /* Video_JSONTests.m */; };
+		ABC94C811A5332620047182A /* powered-by-google-on-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC94C801A5332620047182A /* powered-by-google-on-white@2x.png */; };
+		ABC94C831A5332690047182A /* powered-by-google-on-white.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC94C821A5332690047182A /* powered-by-google-on-white.png */; };
 		BC3186C81BA5A7446EC5EF21 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D0EDC5721A34A4FE18470B4 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -68,6 +70,8 @@
 		ABB747C71A2C42CD00A14536 /* Video_JSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Video_JSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747CC1A2C42CD00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747CD1A2C42CD00A14536 /* Video_JSONTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Video_JSONTests.m; sourceTree = "<group>"; };
+		ABC94C801A5332620047182A /* powered-by-google-on-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powered-by-google-on-white@2x.png"; sourceTree = "<group>"; };
+		ABC94C821A5332690047182A /* powered-by-google-on-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powered-by-google-on-white.png"; sourceTree = "<group>"; };
 		E2DCBBB9089804ECDF3F023B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F0F2E2EBAB66322FAA9ECA4B /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,6 +128,8 @@
 		ABB747B01A2C42CC00A14536 /* Video_JSON */ = {
 			isa = PBXGroup;
 			children = (
+				ABC94C821A5332690047182A /* powered-by-google-on-white.png */,
+				ABC94C801A5332620047182A /* powered-by-google-on-white@2x.png */,
 				AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */,
 				ABB747B51A2C42CC00A14536 /* AppDelegate.h */,
 				ABB747B61A2C42CC00A14536 /* AppDelegate.m */,
@@ -269,9 +275,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */,
+				ABC94C811A5332620047182A /* powered-by-google-on-white@2x.png in Resources */,
 				AB27BBFB1A48C65400636E78 /* Main.storyboard in Resources */,
 				ABB747C21A2C42CC00A14536 /* LaunchScreen.xib in Resources */,
 				ABB747BF1A2C42CC00A14536 /* Images.xcassets in Resources */,
+				ABC94C831A5332690047182A /* powered-by-google-on-white.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

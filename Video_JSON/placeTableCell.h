@@ -12,4 +12,5 @@
 @property (nonatomic, weak) IBOutlet UILabel *placeName;
 @property (nonatomic, weak) IBOutlet UILabel *placeDescription;
 @property (nonatomic, weak) IBOutlet UIImageView *placeImage;
+@property (nonatomic, weak) IBOutlet UILabel *isOpenLabel;
 @end

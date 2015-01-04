@@ -16,21 +16,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vcq-Gm-hCf">
-                                <rect key="frame" x="16" y="20" width="350" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vcq-Gm-hCf">
+                                <rect key="frame" x="0.0" y="28" width="600" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HWX-RG-Wg8">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HWX-RG-Wg8">
                                 <rect key="frame" x="528" y="20" width="56" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="56" id="6XG-Y5-bs0"/>
+                                </constraints>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xvh-dw-GRl">
-                                <rect key="frame" x="16" y="58" width="350" height="700"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xvh-dw-GRl">
+                                <rect key="frame" x="0.0" y="58" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="568" id="8Xo-wC-eJw"/>
+                                    <constraint firstAttribute="height" constant="482" id="bb7-tV-wA1"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="482" id="mRw-CD-gEk"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="568" id="ynj-4y-jOa"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="3EI-ec-fQB"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="EcV-cq-WhJ"/>
@@ -38,6 +47,14 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="vcq-Gm-hCf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leading" id="47c-r7-JDn"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vcq-Gm-hCf" secondAttribute="trailing" id="NMp-PB-fzE"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xvh-dw-GRl" secondAttribute="trailing" id="ZCZ-8c-r0K"/>
+                            <constraint firstAttribute="bottom" relation="lessThanOrEqual" secondItem="xvh-dw-GRl" secondAttribute="bottom" constant="44" id="bg8-wx-HeQ"/>
+                            <constraint firstItem="xvh-dw-GRl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="leading" id="cdj-qR-Nvq"/>
+                            <constraint firstItem="xvh-dw-GRl" firstAttribute="top" relation="lessThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="top" constant="58" id="tLE-3I-PAA"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
