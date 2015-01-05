@@ -13,10 +13,4 @@
 @synthesize placeDescription = _placeDescription;
 @synthesize placeImage = _placeImage;
 @synthesize isOpenLabel = _isOpenLabel;
-
-- (void)setFrame:(CGRect)frame {
-    frame.origin.y += 4;
-    frame.size.height -= 2 * 4;
-    [super setFrame:frame];
-}
 @end

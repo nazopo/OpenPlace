@@ -10,6 +10,7 @@
 #import "Place.h"
 #import "placeTableCell.h"
 #import "DetailCell.h"
+#import <QuartzCore/QuartzCore.h>
 #define UIColorFromRGB(rgbValue) \
 [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
@@ -61,7 +62,8 @@ int i = 0;
     self.favorites_manager.refreshControl = self.refreshControl;
     if(self.place_id_storage.count > 0)
         [self createFavoritePlaces];
-    
+    [self.tableView setBackgroundColor:UIColorFromRGB(0x2E3E51)];
+    [self.view setBackgroundColor:[UIColor blackColor]];//UIColorFromRGB(0x2E3E51)];
     }
 
 
@@ -346,8 +348,8 @@ int i = 0;
             cell = [tableView dequeueReusableCellWithIdentifier:@"placeTableCell"];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             self.tableView.allowsSelection = NO;
-//            self.tableView.rowHeight = UITableViewAutomaticDimension;
-//            self.tableView.estimatedRowHeight = 187.0;
+            self.tableView.rowHeight = UITableViewAutomaticDimension;
+            self.tableView.estimatedRowHeight = 187.0;
             
         }
         
@@ -373,7 +375,7 @@ int i = 0;
         //        NSLog(@"this is a test of 2.0 status %lu",indexPath.row);
         //        CGRect frame = CGRectOffset([tableView rectForRowAtIndexPath:indexPath], 0.0, 90.8);
         //    cell.backgroundColor = [[UIView alloc] initWithFrame: frame ];
-        if([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==YES)
+        if([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==YES)
         {
             cell.isOpenLabel.backgroundColor = UIColorFromRGB(0x39FF14);//0x84E80C);
             cell.isOpenLabel.text = @"OPEN";
@@ -383,7 +385,7 @@ int i = 0;
 
 
         }
-        else if(([[self.placeDetails objectAtIndex:indexPath.row] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.row] hasHours]==YES))
+        else if(([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.section] hasHours]==YES))
         {
             cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xff0000);//0xFF6853);
             cell.isOpenLabel.text = @"CLOSED";
@@ -397,14 +399,29 @@ int i = 0;
             CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17.0]}].width);
             cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
         }
-        
-        cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.row] name];
-        cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.row] address];
-                cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.row] imgData]];
+        [cell.contentView.layer setBorderColor:[UIColor redColor].CGColor];
+        [cell.contentView.layer setBorderWidth:1.0f];
+        cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.section] name];
+        cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.section] address];
+                cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.section] imgData]];
     }
 }
 
-
+- (double)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    //this is the space
+   // NSLog(@"THIS IS THE SECTION VALUE: %lu",section);
+    if(section != self.place_id_storage.count-1)
+        return 50;
+    else
+        return 0;
+    
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor clearColor];
+    return headerView;
+}
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
    
 //    if([tableView isEqual:self.autocompleteTableView])
@@ -419,14 +436,17 @@ int i = 0;
     if([tableView isEqual:self.autocompleteTableView])
         return [self.placesAsProperties count];
     else if(self.placeDetails.count>0)
-        return self.place_id_storage.count;
+        return 1;
     else
         return 0;
     
 }
 -(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView{
     
-    return 1;
+    if([tableView isEqual:self.autocompleteTableView])
+        return 1;
+    else
+        return self.place_id_storage.count;
     
 //    if([tableView isEqual:self.autocompleteTableView])
 //        return 1;
