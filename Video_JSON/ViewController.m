@@ -11,6 +11,7 @@
 #import "placeTableCell.h"
 #import "DetailCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIImage+ImageEffects.h"
 #define UIColorFromRGB(rgbValue) \
 [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
 green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
@@ -20,13 +21,26 @@ alpha:1.0]
 
 @end
 
-@implementation ViewController
-@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp, refreshControl, favorites_manager;
+@implementation ViewController{
+    CLLocationManager *locationManager;
+}
+@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp, refreshControl, favorites_manager, currentLatitude, currentLongitude, googlePowered;
 int i = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self CurrentLocationIdentifier];
     //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background.png"]];
     // Do any additional setup after loading the view, typically from a nib.
+   //[self.view setBackgroundColor:[UIColor clearColor]];
+    self.googlePowered.image = [UIImage imageNamed:@"powered-by-google-on-white@2x.png"];
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    UIView *blurredView = [[UIView alloc] initWithFrame:self.view.frame];
+    UIImage *image = [UIImage imageNamed:@"ios7_BG.png"];
+    image = [image applyBlurWithRadius:1 tintColor:[UIColor colorWithWhite:1.0 alpha:0.3] saturationDeltaFactor:2.4 maskImage:nil];
+    [blurredView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+    //[self addBlurToView:blurredView];
+    [self.view insertSubview:blurredView atIndex:0];
+    //self.view.backgroundColor =  [UIColor colorWithPatternImage:image];//[UIColor colorWithPatternImage:image];
     self.prefs = [NSUserDefaults standardUserDefaults];
     self.autocompletePlaces = [[NSMutableArray alloc] init];
     self.pastPlaces = [[NSMutableArray alloc] init];
@@ -39,16 +53,19 @@ int i = 0;
     self.place_id_storage = [[NSMutableArray alloc] init];
     [self.place_id_storage addObjectsFromArray:[self.prefs arrayForKey:@"place_id_favorites"]];
     //autocompleteTextField = [[UITextField alloc] initWithFrame:CGRectMake(0,80, 900, 120)];
-    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,50, 420, 120)];
+    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,58, 420, 120)];
     self.autocompleteTableView.delegate = self;
     self.autocompleteTextField.delegate = self;
     self.autocompleteTextField.placeholder=@"Search for a place";
     self.autocompleteTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     self.autocompleteTextField.returnKeyType = UIReturnKeyDone;
     self.autocompleteTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.autocompleteTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.autocompleteTableView.dataSource = self;
     self.autocompleteTableView.scrollEnabled = YES;
     self.autocompleteTableView.hidden = YES;
+    self.autocompleteTableView.backgroundColor = [UIColor clearColor];
+   // self.autocompleteTableView.opaque = YES;
     self.favorites_manager = [[UITableViewController alloc] init];
     [self.view addSubview:self.autocompleteTableView];
     [self.autocompleteTableView addObserver:self forKeyPath:@"contentSize" options:0 context:NULL];
@@ -62,15 +79,116 @@ int i = 0;
     self.favorites_manager.refreshControl = self.refreshControl;
     if(self.place_id_storage.count > 0)
         [self createFavoritePlaces];
-    [self.tableView setBackgroundColor:UIColorFromRGB(0x2E3E51)];
-    [self.view setBackgroundColor:[UIColor blackColor]];//UIColorFromRGB(0x2E3E51)];
+    self.tableView.opaque = NO;
+     self.tableView.backgroundColor = [UIColor clearColor];
+    
+   // [self.tableView setBackgroundColor:UIColorFromRGB(0x2E3E51)];
+    //[self.view setBackgroundColor:[UIColor blackColor]];//UIColorFromRGB(0x2E3E51)];
+//    [self.view setBackgroundColor:UIColorFromRGB(0x2E3E51)];
+     //[self addBlurToView:self.view];
     }
+
+-(void)CurrentLocationIdentifier
+{
+    //---- For getting current gps location
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    // Check for iOS 8. Without this guard the code will crash with "unknown selector" on iOS 7.
+    if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    [locationManager startUpdatingLocation];
+    //------
+    NSLog(@"HELLO THIS IS A TEST %@",[locationManager location]);
+}
+
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+        return [tableView isEqual:self.tableView];
+    
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        //add code here for when you hit delete
+        NSLog(@"INDEX PATH SECTION %lu",indexPath.section);
+        [self.place_id_storage removeObjectAtIndex:indexPath.section];
+        [self.prefs setObject:self.place_id_storage forKey:@"place_id_favorites"];
+         [self.placeDetails removeObjectAtIndex:indexPath.section];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section]withRowAnimation:UITableViewRowAnimationFade];
+       
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"didUpdateToLocation: %@", newLocation);
+    CLLocation *currentLocation = newLocation;
+    
+    if (currentLocation != nil) {
+        self.currentLongitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.longitude];
+        self.currentLatitude = [NSString stringWithFormat:@"%.8f", currentLocation.coordinate.latitude];
+    }
+}
+
+- (void)addBlurToView:(UIView *)view {
+    UIView *blurView = nil;
+    
+    if([UIBlurEffect class]) { // iOS 8
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        blurView.frame = view.frame;
+        
+    } else { // workaround for iOS 7
+        blurView = [[UIToolbar alloc] initWithFrame:view.bounds];
+    }
+    
+    [blurView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    [view addSubview:blurView];
+    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[blurView]|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(blurView)]];
+    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[blurView]|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(blurView)]];
+}
+
+- (void)addDarkerBlurToView:(UIView *)view {
+    UIView *blurView = nil;
+    
+    if([UIBlurEffect class]) { // iOS 8
+        UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        blurView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+        blurView.frame = view.frame;
+        
+    } else { // workaround for iOS 7
+        blurView = [[UIToolbar alloc] initWithFrame:view.bounds];
+    }
+    
+    [blurView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    
+    [view addSubview:blurView];
+//    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[blurView]|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(blurView)]];
+//    [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[blurView]|" options:0 metrics:0 views:NSDictionaryOfVariableBindings(blurView)]];
+}
 
 
 -(void)getJSONData: (NSString *) input completion:(void (^)(void))dataReceived
 {
     NSString *urlMod = [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&location=30.29128,-97.73858&radius=500&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",urlMod];
+    NSLog(@"LATITUDE: %@ and LONGITUDE: %@ ",self.currentLatitude, self.currentLongitude);
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&location=%@,%@&radius=500&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",urlMod,self.currentLatitude,self.currentLongitude];
+    NSLog(@"THI IS URL: %@",urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -107,13 +225,24 @@ int i = 0;
 - (void)refresh:(id)sender
 {
     [self.favorites_manager.refreshControl beginRefreshing];
-    [self createFavoritePlaces];
+    if(self.place_id_storage.count > 0)
+        [self createFavoritePlaces];
+    else
+        [self didReceiveData];
     
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    // done button was pressed - dismiss keyboard
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+
 -(void)getJSONPlaceDetails:(NSString *) place_id{
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",place_id];
-    NSLog(@"URL TO TEST %@", urlString);
     Place *individualPlace = [[Place alloc] init];
     static NSURLSession* sharedSessionMainQueue = nil;
     if(!sharedSessionMainQueue){
@@ -295,8 +424,7 @@ int i = 0;
         NSLog(@"INDEX PATH ROW: %lu",indexPath.row);
         NSLog(@"PAS P %lu",self.placesAsProperties.count);
         UITableViewCell *cell = nil;
-        if(indexPath.row < self.placesAsProperties.count-1)
-        {
+        
         static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
         cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
             
@@ -304,39 +432,16 @@ int i = 0;
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
         }
         // NSLog(@"this is a test of 3.0 status %lu",indexPath.row);
+//        cell.opaque = YES;
+        cell.shouldIndentWhileEditing = YES;
+        cell.backgroundColor = [UIColor clearColor];
             cell.imageView.frame = CGRectOffset(cell.frame, 90, 90);
         cell.textLabel.text = [[self.placesAsProperties objectAtIndex:indexPath.row] name];
-            cell.preservesSuperviewLayoutMargins = NO;
-            if (indexPath.row == self.placesAsProperties.count-2) {
-//                cell.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.tableView.bounds)/2.0, 0, CGRectGetWidth(self.tableView.bounds)/2.0);
-//                cell.layer.shadowOffset = CGSizeMake(1, 0);
-//                cell.layer.shadowColor = [[UIColor blackColor] CGColor];
-//                cell.layer.shadowRadius = 5;
-//                cell.layer.shadowOpacity = .25;
-//                
-//                
-//                CGRect shadowFrame = cell.layer.bounds;
-//                CGPathRef shadowPath = [UIBezierPath bezierPathWithRect:shadowFrame].CGPath;
-//                cell.layer.shadowPath = shadowPath;
-            }
+           cell.preservesSuperviewLayoutMargins = NO;
+        UIToolbar *translucentView = [[UIToolbar alloc] initWithFrame:CGRectZero];
+        
+        cell.backgroundView = translucentView;
         return cell;
-        }
-        else if(indexPath.row == (self.placesAsProperties.count-1))
-        {
-            NSLog(@"CELL INDEX %lu",indexPath.row);
-            UITableViewCell *cell = nil;
-            static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
-            cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-            if(cell == nil){
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
-            }
-            // NSLog(@"this is a test of 3.0 status %lu",indexPath.row);
-            //cell.textLabel.text = [[self.placesAsProperties objectAtIndex:indexPath.row] name];
-            UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"powered-by-google-on-white@2x.png"]];
-            cell.accessoryView = imageView;
-            cell.imageView.frame = CGRectOffset(cell.frame, 10, 10);
-            return cell;
-        }
     }
     else if(self.place_id_storage.count > 0){
         
@@ -349,7 +454,7 @@ int i = 0;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             self.tableView.allowsSelection = NO;
             self.tableView.rowHeight = UITableViewAutomaticDimension;
-            self.tableView.estimatedRowHeight = 187.0;
+            self.tableView.estimatedRowHeight = 205.0;
             
         }
         
@@ -364,53 +469,71 @@ int i = 0;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(![tableView isEqual:self.autocompleteTableView])
-        return 187;
+        return 205;
     else
         return 44;
     
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(placeTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if(![tableView isEqual:self.autocompleteTableView]){
         //        NSLog(@"this is a test of 2.0 status %lu",indexPath.row);
         //        CGRect frame = CGRectOffset([tableView rectForRowAtIndexPath:indexPath], 0.0, 90.8);
         //    cell.backgroundColor = [[UIView alloc] initWithFrame: frame ];
+        cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
         if([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==YES)
         {
-            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0x39FF14);//0x84E80C);
+            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0x39FF14);//[UIColor colorWithRed:57
+//        green:255
+//        blue:20
+//        alpha:.9];//0x84E80C);
+//            cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
             cell.isOpenLabel.text = @"OPEN";
-            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17.0]}].width);
-            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
+//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
+           // cell.isOpenLabel.frame = CGRectMake(275,142, width,10);
 
 
 
         }
         else if(([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.section] hasHours]==YES))
         {
-            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xff0000);//0xFF6853);
+            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xff0000);//[UIColor colorWithRed:204
+//                                                               green:73
+//                                                                blue:87
+//                                                              alpha:.8];////0xFF6853);
+//            cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
             cell.isOpenLabel.text = @"CLOSED";
-            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17.0]}].width);
-            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
+//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
+//            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
         }
         else
         {
-            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xC0C0C0);
+            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xC0C0C0);//[UIColor colorWithRed:192
+//                                                               green:192
+//                                                                blue:192
+//                                                               alpha:.65];
+            
             cell.isOpenLabel.text = @"NO DATA";
-            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:17.0]}].width);
-            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
+//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
+//            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
         }
-        [cell.contentView.layer setBorderColor:[UIColor redColor].CGColor];
-        [cell.contentView.layer setBorderWidth:1.0f];
+        
+       
+         cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:.65];
         cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.section] name];
         cell.placeDescription.text = [[self.placeDetails objectAtIndex:indexPath.section] address];
+        
                 cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.section] imgData]];
     }
+    if(self.googlePowered.hidden == YES)
+        self.googlePowered.hidden = NO;
 }
 
 - (double)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     //this is the space
    // NSLog(@"THIS IS THE SECTION VALUE: %lu",section);
-    if(section != self.place_id_storage.count-1)
+    if(section != self.place_id_storage.count-1 && [tableView isEqual:self.tableView])
         return 50;
     else
         return 0;
@@ -432,7 +555,6 @@ int i = 0;
 //        return 0;
     
     
-    NSLog(@"NUMBER OF ROWS");
     if([tableView isEqual:self.autocompleteTableView])
         return [self.placesAsProperties count];
     else if(self.placeDetails.count>0)
@@ -457,10 +579,9 @@ int i = 0;
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath{
     if([tableView isEqual:self.autocompleteTableView]){
-        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
-        self.autocompleteTextField.text = selectedCell.textLabel.text;
+      //  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
         if(![self.place_id_storage containsObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]]){
-            [self.place_id_storage addObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]];
+            [self.place_id_storage insertObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id] atIndex:0];
             [self.prefs setObject:self.place_id_storage forKey:@"place_id_favorites"];
             [self createFavoritePlaces];
         }

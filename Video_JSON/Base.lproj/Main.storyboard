@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,26 +17,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vcq-Gm-hCf">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vcq-Gm-hCf">
                                 <rect key="frame" x="0.0" y="28" width="600" height="30"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HWX-RG-Wg8">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HWX-RG-Wg8">
                                 <rect key="frame" x="528" y="20" width="56" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="56" id="6XG-Y5-bs0"/>
+                                    <constraint firstAttribute="width" constant="56" id="3Ai-no-bMb"/>
                                 </constraints>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xvh-dw-GRl">
-                                <rect key="frame" x="0.0" y="66" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xvh-dw-GRl">
+                                <rect key="frame" x="0.0" y="66" width="600" height="490"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <imageView key="tableFooterView" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Cfo-Mn-bTi">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </imageView>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="3EI-ec-fQB"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="EcV-cq-WhJ"/>
@@ -44,16 +49,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="xvh-dw-GRl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="OtO-Ga-V9u"/>
-                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xvh-dw-GRl" secondAttribute="bottom" constant="-50" id="bfJ-yw-rtS"/>
-                            <constraint firstItem="xvh-dw-GRl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="kh9-bI-dsS" secondAttribute="top" constant="66" id="fBc-Co-oyo"/>
-                            <constraint firstAttribute="trailing" secondItem="xvh-dw-GRl" secondAttribute="trailing" id="nb4-nv-w6C"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="xvh-dw-GRl" secondAttribute="bottom" id="BX8-h9-u50"/>
+                            <constraint firstItem="vcq-Gm-hCf" firstAttribute="trailing" secondItem="xvh-dw-GRl" secondAttribute="trailing" id="XkZ-Rx-gMu"/>
+                            <constraint firstItem="vcq-Gm-hCf" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="aB6-ZJ-SpD"/>
+                            <constraint firstItem="HWX-RG-Wg8" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="dQg-Ph-SkD"/>
+                            <constraint firstItem="xvh-dw-GRl" firstAttribute="leading" secondItem="vcq-Gm-hCf" secondAttribute="leading" id="nGF-91-i4g"/>
+                            <constraint firstItem="HWX-RG-Wg8" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="npY-DA-5Ei"/>
+                            <constraint firstItem="vcq-Gm-hCf" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" symbolic="YES" id="okr-gK-J2y"/>
+                            <constraint firstItem="xvh-dw-GRl" firstAttribute="top" secondItem="vcq-Gm-hCf" secondAttribute="bottom" constant="8" symbolic="YES" id="xkl-WC-El3"/>
+                            <constraint firstAttribute="trailing" secondItem="vcq-Gm-hCf" secondAttribute="trailing" id="xyZ-Q3-Abh"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="autocompleteTextField" destination="vcq-Gm-hCf" id="S4w-Il-2dx"/>
+                        <outlet property="googlePowered" destination="Cfo-Mn-bTi" id="yfu-Hx-tbP"/>
                         <outlet property="tableView" destination="xvh-dw-GRl" id="jxp-HZ-ENy"/>
                     </connections>
                 </viewController>

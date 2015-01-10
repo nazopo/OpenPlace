@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource>{
+#import <CoreLocation/CoreLocation.h>
+@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
     
 
+    CLLocation *_currentLocation;
     
-    
+    IBOutlet UIImageView *googlePowered;
     
    
     IBOutlet UITextField *autocompleteTextField;
@@ -34,7 +36,9 @@
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 @property (nonatomic, strong) UITableViewController *favorites_manager;
 @property (nonatomic, strong) NSUserDefaults *prefs;
-
+@property (nonatomic, strong) NSString *currentLatitude;
+@property (nonatomic, strong) NSString *currentLongitude;
+@property (strong, nonatomic) IBOutlet UIImageView *googlePowered;
 
 
 @end
