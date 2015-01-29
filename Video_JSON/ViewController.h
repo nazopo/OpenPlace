@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate>{
+@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,UIGestureRecognizerDelegate>{
     
 
     CLLocation *_currentLocation;
@@ -20,6 +20,8 @@
     IBOutlet UITextField *autocompleteTextField;
 }
 -(void)getJSONPlaceDetails:(NSString *) place_id completion:(void (^)(void))dataReceived;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UILabel *placeCell;
 @property (nonatomic, retain) UITextField *autocompleteTextField;
@@ -39,7 +41,9 @@
 @property (nonatomic, strong) NSString *currentLatitude;
 @property (nonatomic, strong) NSString *currentLongitude;
 @property (strong, nonatomic) IBOutlet UIImageView *googlePowered;
-
+@property (nonatomic) NSInteger currentSection;
+@property (nonatomic) BOOL finishedLoadingData;
+@property (nonatomic) int cellHeight;
 
 @end
 

@@ -13,6 +13,7 @@
 @synthesize placeDescription = _placeDescription;
 @synthesize placeImage = _placeImage;
 @synthesize isOpenLabel = _isOpenLabel;
+@synthesize displayingHours = _displayingHours;
 
 - (void)addBlurToView:(UIView *)view {
     UIView *blurView = nil;

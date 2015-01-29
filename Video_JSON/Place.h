@@ -21,4 +21,5 @@
 @property (strong, nonatomic) NSData *base64Encoded;
 @property (nonatomic) BOOL hasPhotos;
 @property (nonatomic, assign) BOOL hasHours;
+@property (strong, nonatomic) NSMutableArray *placeHours;
 @end

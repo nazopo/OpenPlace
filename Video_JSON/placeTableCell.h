@@ -13,4 +13,8 @@
 @property (nonatomic, weak) IBOutlet UILabel *placeDescription;
 @property (nonatomic, weak) IBOutlet UIImageView *placeImage;
 @property (nonatomic, weak) IBOutlet UILabel *isOpenLabel;
+@property (nonatomic, weak) IBOutlet UILabel *placeHours;
+@property (nonatomic, weak) IBOutlet UILabel *noImageIndicator;
+@property (nonatomic, assign) BOOL displayingHours;
+@property NSString *placeHoursTemp;
 @end
