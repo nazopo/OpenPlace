@@ -55,6 +55,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="autocompleteTextField" destination="vcq-Gm-hCf" id="mJ2-gn-yHZ"/>
+                        <outlet property="googlePowered" destination="577-cf-B3b" id="WEl-O6-m94"/>
                         <outlet property="tableView" destination="xvh-dw-GRl" id="jxp-HZ-ENy"/>
                     </connections>
                 </viewController>
