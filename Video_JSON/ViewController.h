@@ -44,6 +44,9 @@
 @property (nonatomic) NSInteger currentSection;
 @property (nonatomic) BOOL finishedLoadingData;
 @property (nonatomic) int cellHeight;
+@property (strong, nonatomic) IBOutlet UIButton *info;
+
+
 
 @end
 

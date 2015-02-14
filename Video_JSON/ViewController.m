@@ -52,9 +52,11 @@ int i = 0;
     //[self addBlurToView:blurredView];
     [self.view insertSubview:blurredView atIndex:0];
     //self.view.backgroundColor =  [UIColor colorWithPatternImage:image];//[UIColor colorWithPatternImage:image];
+    
     self.cellHeight = 205;
     self.view.userInteractionEnabled = YES;
     self.tableView.userInteractionEnabled = YES;
+    self.tableView.scrollsToTop = YES;
     self.prefs = [NSUserDefaults standardUserDefaults];
     self.autocompletePlaces = [[NSMutableArray alloc] init];
     self.pastPlaces = [[NSMutableArray alloc] init];
@@ -112,6 +114,10 @@ int i = 0;
     self.autocompleteTextField.text = @"";
     [self.view endEditing:YES];
 }
+- (IBAction)didReceiveValue:(id)sender {
+    NSLog(@"GOT TOUCHED");
+}
+
 -(void)CurrentLocationIdentifier
 {
     //---- For getting current gps location
@@ -696,6 +702,9 @@ int i = 0;
     headerView.backgroundColor = [UIColor clearColor];
     return headerView;
 }
+
+
+
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
    
 //    if([tableView isEqual:self.autocompleteTableView])
