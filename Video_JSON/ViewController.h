@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
-@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,UIGestureRecognizerDelegate>{
+
+@interface ViewController : UIViewController<UITextFieldDelegate,UITableViewDelegate, UITableViewDataSource, CLLocationManagerDelegate,UIGestureRecognizerDelegate, UIWebViewDelegate>{
     
 
     CLLocation *_currentLocation;
@@ -19,8 +20,36 @@
    
     IBOutlet UITextField *autocompleteTextField;
 }
--(void)getJSONPlaceDetails:(NSString *) place_id completion:(void (^)(void))dataReceived;
+-(void) viewDidLoad;
+-(void) hideKeyboard;
+-(void) dealloc;
+-(void) CurrentLocationIdentifier;
+- (NSUInteger) supportedInterfaceOrientations;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error;
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation;
+-(void)getJSONData: (NSString *) input completion:(void (^)(void))dataReceived;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+- (void)refresh:(id)sender;
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;
+-(IBAction) performUnwind: (UIStoryboardSegue *)segue;
+-(void)didReceiveData;
+-(void)createFavoritePlaces;
+-(void)textFieldDidChange:(UITextField *)input;
+- (void)didReceiveMemoryWarning;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)didReceiveTap:(UITapGestureRecognizer *)gesture;
+- (UIImage *)imageWithColor:(UIColor *)color;
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
+-(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+-(NSInteger) numberOfSectionsInTableView:(UITableView *)tableView;
+-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath;
+-(void)getJSONPlaceDetails:(NSString *) place_id;
+//-(void)getJSONPlaceDetails:(NSString *) place_id completion:(void (^)(void))dataReceived;
+
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UILabel *placeCell;
@@ -45,6 +74,8 @@
 @property (nonatomic) BOOL finishedLoadingData;
 @property (nonatomic) int cellHeight;
 @property (strong, nonatomic) IBOutlet UIButton *info;
+@property (nonatomic, strong) UIView *footerView;
+@property (strong, nonatomic) IBOutlet UIWebView *privacyPolicy;
 
 
 

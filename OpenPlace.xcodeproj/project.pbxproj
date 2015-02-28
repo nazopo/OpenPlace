@@ -15,6 +15,7 @@
 		AB27BBFE1A48E03600636E78 /* placeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB27BBFD1A48E03600636E78 /* placeTableCell.m */; };
 		AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */; };
 		AB91DB001A40CF4600E02763 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */; };
+		ABA775581AA1939000DC3482 /* openplaceicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ABA775571AA1939000DC3482 /* openplaceicon.jpg */; };
 		ABA80CBE1A60552500116F13 /* powered-by-google-on-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA80CBD1A60552500116F13 /* powered-by-google-on-white@2x.png */; };
 		ABB747B41A2C42CC00A14536 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B31A2C42CC00A14536 /* main.m */; };
 		ABB747B71A2C42CC00A14536 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB747B61A2C42CC00A14536 /* AppDelegate.m */; };
@@ -52,8 +53,9 @@
 		AB27BBFD1A48E03600636E78 /* placeTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = placeTableCell.m; sourceTree = "<group>"; };
 		AB27BC001A48E76C00636E78 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/placeTableCell.xib; sourceTree = "<group>"; };
 		AB91DAFF1A40CF4600E02763 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		ABA775571AA1939000DC3482 /* openplaceicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = openplaceicon.jpg; sourceTree = "<group>"; };
 		ABA80CBD1A60552500116F13 /* powered-by-google-on-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "powered-by-google-on-white@2x.png"; sourceTree = "<group>"; };
-		ABB747AE1A2C42CC00A14536 /* Video_JSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Video_JSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB747AE1A2C42CC00A14536 /* OpenPlace.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenPlace.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747B21A2C42CC00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747B31A2C42CC00A14536 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ABB747B51A2C42CC00A14536 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -63,7 +65,7 @@
 		ABB747BC1A2C42CC00A14536 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ABB747BE1A2C42CC00A14536 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ABB747C11A2C42CC00A14536 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		ABB747C71A2C42CD00A14536 /* Video_JSONTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Video_JSONTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB747C71A2C42CD00A14536 /* OpenPlaceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenPlaceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB747CC1A2C42CD00A14536 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ABB747CD1A2C42CD00A14536 /* Video_JSONTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Video_JSONTests.m; sourceTree = "<group>"; };
 		ABC6A7EB1A64A68E00D3F7AB /* powered-by-google-on-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "powered-by-google-on-white.png"; path = "../powered-by-google-on-white.png"; sourceTree = "<group>"; };
@@ -109,8 +111,8 @@
 		ABB747AF1A2C42CC00A14536 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABB747AE1A2C42CC00A14536 /* Video_JSON.app */,
-				ABB747C71A2C42CD00A14536 /* Video_JSONTests.xctest */,
+				ABB747AE1A2C42CC00A14536 /* OpenPlace.app */,
+				ABB747C71A2C42CD00A14536 /* OpenPlaceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				AB0F08071A5B09540061B6CB /* ios7_BG.png */,
+				ABA775571AA1939000DC3482 /* openplaceicon.jpg */,
 				AB27BBFF1A48E76C00636E78 /* placeTableCell.xib */,
 				ABB747B51A2C42CC00A14536 /* AppDelegate.h */,
 				ABB747B61A2C42CC00A14536 /* AppDelegate.m */,
@@ -184,9 +187,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		ABB747AD1A2C42CC00A14536 /* Video_JSON */ = {
+		ABB747AD1A2C42CC00A14536 /* OpenPlace */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ABB747D11A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSON" */;
+			buildConfigurationList = ABB747D11A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "OpenPlace" */;
 			buildPhases = (
 				ABB747AA1A2C42CC00A14536 /* Sources */,
 				ABB747AB1A2C42CC00A14536 /* Frameworks */,
@@ -196,14 +199,14 @@
 			);
 			dependencies = (
 			);
-			name = Video_JSON;
+			name = OpenPlace;
 			productName = Video_JSON;
-			productReference = ABB747AE1A2C42CC00A14536 /* Video_JSON.app */;
+			productReference = ABB747AE1A2C42CC00A14536 /* OpenPlace.app */;
 			productType = "com.apple.product-type.application";
 		};
-		ABB747C61A2C42CD00A14536 /* Video_JSONTests */ = {
+		ABB747C61A2C42CD00A14536 /* OpenPlaceTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = ABB747D41A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSONTests" */;
+			buildConfigurationList = ABB747D41A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "OpenPlaceTests" */;
 			buildPhases = (
 				ABB747C31A2C42CD00A14536 /* Sources */,
 				ABB747C41A2C42CD00A14536 /* Frameworks */,
@@ -214,9 +217,9 @@
 			dependencies = (
 				ABB747C91A2C42CD00A14536 /* PBXTargetDependency */,
 			);
-			name = Video_JSONTests;
+			name = OpenPlaceTests;
 			productName = Video_JSONTests;
-			productReference = ABB747C71A2C42CD00A14536 /* Video_JSONTests.xctest */;
+			productReference = ABB747C71A2C42CD00A14536 /* OpenPlaceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -238,7 +241,7 @@
 					};
 				};
 			};
-			buildConfigurationList = ABB747A91A2C42CC00A14536 /* Build configuration list for PBXProject "Video_JSON" */;
+			buildConfigurationList = ABB747A91A2C42CC00A14536 /* Build configuration list for PBXProject "OpenPlace" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -251,8 +254,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				ABB747AD1A2C42CC00A14536 /* Video_JSON */,
-				ABB747C61A2C42CD00A14536 /* Video_JSONTests */,
+				ABB747AD1A2C42CC00A14536 /* OpenPlace */,
+				ABB747C61A2C42CD00A14536 /* OpenPlaceTests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABA775581AA1939000DC3482 /* openplaceicon.jpg in Resources */,
 				AB0F08081A5B09540061B6CB /* ios7_BG.png in Resources */,
 				AB27BC011A48E76C00636E78 /* placeTableCell.xib in Resources */,
 				AB27BBFB1A48C65400636E78 /* Main.storyboard in Resources */,
@@ -310,7 +314,7 @@
 /* Begin PBXTargetDependency section */
 		ABB747C91A2C42CD00A14536 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = ABB747AD1A2C42CC00A14536 /* Video_JSON */;
+			target = ABB747AD1A2C42CC00A14536 /* OpenPlace */;
 			targetProxy = ABB747C81A2C42CD00A14536 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -430,7 +434,7 @@
 				INFOPLIST_FILE = Video_JSON/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OpenPlace;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -445,7 +449,7 @@
 				INFOPLIST_FILE = Video_JSON/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OpenPlace;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -464,7 +468,7 @@
 				);
 				INFOPLIST_FILE = Video_JSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OpenPlaceTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Video_JSON.app/Video_JSON";
 			};
 			name = Debug;
@@ -479,7 +483,7 @@
 				);
 				INFOPLIST_FILE = Video_JSONTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = OpenPlaceTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Video_JSON.app/Video_JSON";
 			};
 			name = Release;
@@ -487,7 +491,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		ABB747A91A2C42CC00A14536 /* Build configuration list for PBXProject "Video_JSON" */ = {
+		ABB747A91A2C42CC00A14536 /* Build configuration list for PBXProject "OpenPlace" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ABB747CF1A2C42CD00A14536 /* Debug */,
@@ -496,7 +500,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ABB747D11A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSON" */ = {
+		ABB747D11A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "OpenPlace" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ABB747D21A2C42CD00A14536 /* Debug */,
@@ -505,7 +509,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		ABB747D41A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "Video_JSONTests" */ = {
+		ABB747D41A2C42CD00A14536 /* Build configuration list for PBXNativeTarget "OpenPlaceTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				ABB747D51A2C42CD00A14536 /* Debug */,

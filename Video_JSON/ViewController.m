@@ -17,6 +17,7 @@
 green:((float)((rgbValue & 0x00FF00) >>  8))/255.0 \
 blue:((float)((rgbValue & 0x0000FF) >>  0))/255.0 \
 alpha:1.0]
+
 @interface ViewController ()
 
 @end
@@ -24,14 +25,11 @@ alpha:1.0]
 @implementation ViewController{
     CLLocationManager *locationManager;
 }
-@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp, refreshControl, favorites_manager, currentLatitude, currentLongitude, googlePowered, currentSection, finishedLoadingData, cellHeight;
+@synthesize autocompleteTextField, autocompletePlaces, pastPlaces, placesAsProperties, autocompleteTableView,posts, placesAsPropertiesTemp, rawDetails, place_id_storage, placeDetails, placeDetailsTemp, refreshControl, favorites_manager, currentLatitude, currentLongitude, googlePowered, currentSection, finishedLoadingData, cellHeight, footerView, privacyPolicy;
 int i = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self CurrentLocationIdentifier];
-    //self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"Background.png"]];
-    // Do any additional setup after loading the view, typically from a nib.
-   //[self.view setBackgroundColor:[UIColor clearColor]];
     self.finishedLoadingData = NO;
     self.googlePowered.image = [UIImage imageNamed:@"Image"];
     self.googlePowered.contentMode = UIViewContentModeCenter;
@@ -41,7 +39,6 @@ int i = 0;
     CGFloat widthInPixel = screen.size.width * scaleFactor;
     CGFloat heightInPixel = screen.size.height * scaleFactor;
     self.view.frame = CGRectMake(0, 0, widthInPixel, heightInPixel);
-    //self.view.userInteractionEnabled = NO;
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.tableView addGestureRecognizer:gestureRecognizer];
     gestureRecognizer.cancelsTouchesInView = NO;
@@ -49,10 +46,7 @@ int i = 0;
     UIImage *image = [UIImage imageNamed:@"ios7_BG.png"];
     image = [image applyBlurWithRadius:1 tintColor:[UIColor colorWithWhite:1.0 alpha:0.3] saturationDeltaFactor:2.4 maskImage:nil];
     [blurredView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-    //[self addBlurToView:blurredView];
     [self.view insertSubview:blurredView atIndex:0];
-    //self.view.backgroundColor =  [UIColor colorWithPatternImage:image];//[UIColor colorWithPatternImage:image];
-    
     self.cellHeight = 205;
     self.view.userInteractionEnabled = YES;
     self.tableView.userInteractionEnabled = YES;
@@ -68,7 +62,6 @@ int i = 0;
     self.rawDetails = [[NSMutableDictionary alloc] init];
     self.place_id_storage = [[NSMutableArray alloc] init];
     [self.place_id_storage addObjectsFromArray:[self.prefs arrayForKey:@"place_id_favorites"]];
-    //autocompleteTextField = [[UITextField alloc] initWithFrame:CGRectMake(0,80, 900, 120)];
     self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,58, 420, 120)];
     self.autocompleteTableView.delegate = self;
     self.autocompleteTextField.delegate = self;
@@ -81,7 +74,6 @@ int i = 0;
     self.autocompleteTableView.scrollEnabled = YES;
     self.autocompleteTableView.hidden = YES;
     self.autocompleteTableView.backgroundColor = [UIColor clearColor];
-   // self.autocompleteTableView.opaque = YES;
     self.favorites_manager = [[UITableViewController alloc] init];
     [self.view addSubview:self.autocompleteTableView];
     [self.autocompleteTableView addObserver:self forKeyPath:@"contentSize" options:0 context:NULL];
@@ -97,25 +89,167 @@ int i = 0;
         [self createFavoritePlaces];
     self.tableView.opaque = NO;
      self.tableView.backgroundColor = [UIColor clearColor];
+    NSString *html = [NSString stringWithFormat:
+                      @" \
+                      \
+                      <h2> \
+                      Mobile application Terms and Conditions of Use \
+                      </h2> \
+                      \
+                      <h3> \
+                      1. Terms \
+                      </h3> \
+                      \
+                      <p> \
+                      By accessing this mobile application, you are agreeing to be bound by these  \
+                      mobile application Terms and Conditions of Use, all applicable laws and regulations,  \
+                      and agree that you are responsible for compliance with any applicable local  \
+                      laws. If you do not agree with any of these terms, you are prohibited from  \
+                      using or accessing this site. The materials contained in this mobile application are  \
+                      protected by applicable copyright and trade mark law. \
+                      </p> \
+                      \
+                      <h3> \
+                      2. Use License \
+                      </h3> \
+                      \
+                      <ol type=\"a\"> \
+                      <li> \
+                      Permission is granted to temporarily download one copy of the materials  \
+                      (information or software) on Open Place's mobile application for personal,  \
+                      non-commercial transitory viewing only. This is the grant of a license,  \
+                      not a transfer of title, and under this license you may not: \
+                      \
+                      <ol type=\"i\"> \
+                      <li>modify or copy the materials;</li> \
+                      <li>use the materials for any commercial purpose, or for any public display (commercial or non-commercial);</li> \
+                      <li>attempt to decompile or reverse engineer any software contained on Open Place's mobile application;</li> \
+                      <li>remove any copyright or other proprietary notations from the materials; or</li> \
+                      <li>transfer the materials to another person or \"mirror\" the materials on any other server.</li> \
+                      </ol> \
+                      </li> \
+                      <li> \
+                      This license shall automatically terminate if you violate any of these restrictions and may be terminated by Open Place at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format. \
+                      </li> \
+                      </ol> \
+                      \
+                      <h3> \
+                      3. Disclaimer \
+                      </h3> \
+                      \
+                      <ol type=\"a\"> \
+                      <li> \
+                      The materials on Open Place's mobile application are provided \"as is\". Open Place makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties, including without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights. Further, Open Place does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its Internet mobile application or otherwise relating to such materials or on any sites linked to this site. \
+                      </li> \
+                      </ol> \
+                      \
+                      <h3> \
+                      4. Limitations \
+                      </h3> \
+                      \
+                      <p> \
+                      In no event shall Open Place or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption,) arising out of the use or inability to use the materials on Open Place's Internet site, even if Open Place or a Open Place authorized representative has been notified orally or in writing of the possibility of such damage. Because some jurisdictions do not allow limitations on implied warranties, or limitations of liability for consequential or incidental damages, these limitations may not apply to you. \
+                      </p> \
+                      \
+                      <h3> \
+                      5. Revisions and Errata \
+                      </h3> \
+                      \
+                      <p> \
+                      The materials appearing on Open Place's mobile application could include technical, typographical, or photographic errors. Open Place does not warrant that any of the materials on its mobile application are accurate, complete, or current. Open Place may make changes to the materials contained on its mobile application at any time without notice. Open Place does not, however, make any commitment to update the materials. \
+                      </p> \
+                      \
+                      <h3> \
+                      6. Links \
+                      </h3> \
+                      \
+                      <p> \
+                      Open Place has not reviewed all of the sites linked to its Internet mobile application and is not responsible for the contents of any such linked site. The inclusion of any link does not imply endorsement by Open Place of the site. Use of any such linked mobile application is at the user's own risk. \
+                      </p> \
+                      \
+                      <h3> \
+                      7. Site Terms of Use Modifications \
+                      </h3> \
+                      \
+                      <p> \
+                      Open Place may revise these terms of use for its mobile application at any time without notice. By using this mobile application you are agreeing to be bound by the then current version of these Terms and Conditions of Use. \
+                      </p> \
+                      <p> \
+                      Users are also bound by <a href=\"https://www.google.com/intl/en/policies/terms/\">Google's Terms of Service</a> \
+                      </p> \
+                      \
+                      <h3> \
+                      8. Governing Law \
+                      </h3> \
+                      \
+                      <p> \
+                      Any claim relating to Open Place's mobile application shall be governed by the laws of the State of Texas without regard to its conflict of law provisions. \
+                      </p> \
+                      \
+                      <p> \
+                      General Terms and Conditions applicable to Use of a mobile application. \
+                      </p> \
+                      \
+                      \
+                      \
+                      <h2> \
+                      Privacy Policy \
+                      </h2> \
+                      \
+                      <p> \
+                      Your privacy is very important to us. Accordingly, we have developed this Policy in order for you to understand how we collect, use, communicate and disclose and make use of personal information. The following outlines our privacy policy. \
+                      </p> \
+                      \
+                      <ul> \
+                      <li> \
+                      Google Place's API is integrated into Open Place's mobile application and we must provide a reference to <a href=\"https://www.google.com/policies/privacy/\">Google's Privacy Policy</a> \
+                      </li> \
+                      \
+                      <li> \
+                      Before or at the time of collecting personal information, we will identify the purposes for which information is being collected. \
+                      </li> \
+                      <li> \
+                      We will collect and use of personal information solely with the objective of fulfilling those purposes specified by us and for other compatible purposes, unless we obtain the consent of the individual concerned or as required by law.		 \
+                      </li> \
+                      <li> \
+                      We will only retain personal information as long as necessary for the fulfilment of those purposes.  \
+                      </li> \
+                      <li> \
+                      We will collect personal information by lawful and fair means and, where appropriate, with the knowledge or consent of the individual concerned.  \
+                      </li> \
+                      <li> \
+                      Personal data should be relevant to the purposes for which it is to be used, and, to the extent necessary for those purposes, should be accurate, complete, and up-to-date.  \
+                      </li> \
+                      <li> \
+                      We will protect personal information by reasonable security safeguards against loss or theft, as well as unauthorized access, disclosure, copying, use or modification. \
+                      </li> \
+                      <li> \
+                      We will make readily available to customers information about our policies and practices relating to the management of personal information.  \
+                      </li> \
+                      </ul> \
+                      \
+                      <p> \
+                      We are committed to conducting our business in accordance with these principles in order to ensure that the confidentiality of personal information is protected and maintained.  \
+                      </p>		 \
+                      \
+                      \
+                      "];
+    [privacyPolicy setOpaque:NO];
+    [privacyPolicy loadHTMLString:html baseURL:nil];
     
-   // [self.tableView setBackgroundColor:UIColorFromRGB(0x2E3E51)];
-    //[self.view setBackgroundColor:[UIColor blackColor]];//UIColorFromRGB(0x2E3E51)];
-//    [self.view setBackgroundColor:UIColorFromRGB(0x2E3E51)];
-     //[self addBlurToView:self.view];
+   
     }
 
-//-(void)imageSelected
-//{
-//    [self.view endEditing:YES];
-//    NSLog(@"Selected an Image");
-//}
+
 - (void)hideKeyboard {
     self.autocompleteTableView.hidden = YES;
     self.autocompleteTextField.text = @"";
     [self.view endEditing:YES];
 }
-- (IBAction)didReceiveValue:(id)sender {
-    NSLog(@"GOT TOUCHED");
+
+- (void)dealloc
+{
+    [self.autocompleteTableView removeObserver:self forKeyPath:@"contentSize"];
 }
 
 -(void)CurrentLocationIdentifier
@@ -132,7 +266,6 @@ int i = 0;
     }
     [locationManager startUpdatingLocation];
     //------
-    NSLog(@"HELLO THIS IS A TEST %@",[locationManager location]);
 }
 
 - (NSUInteger) supportedInterfaceOrientations {
@@ -152,7 +285,6 @@ int i = 0;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //add code here for when you hit delete
-        NSLog(@"INDEX PATH SECTION %lu",indexPath.section);
         [self.place_id_storage removeObjectAtIndex:indexPath.section];
         [self.prefs setObject:self.place_id_storage forKey:@"place_id_favorites"];
          [self.placeDetails removeObjectAtIndex:indexPath.section];
@@ -183,11 +315,8 @@ int i = 0;
 
 -(void)getJSONData: (NSString *) input completion:(void (^)(void))dataReceived
 {
-    NSLog(@"getJSONData");
     NSString *urlMod = [input stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSLog(@"LATITUDE: %@ and LONGITUDE: %@ ",self.currentLatitude, self.currentLongitude);
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&location=%@,%@&radius=500&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",urlMod,self.currentLatitude,self.currentLongitude];
-    NSLog(@"THI IS URL: %@",urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -242,8 +371,9 @@ int i = 0;
 
 
 
--(void)getJSONPlaceDetails:(NSString *) place_id{
-    NSLog(@"getJSONPlaceDetails");
+-(void)getJSONPlaceDetails:(NSString *) place_id
+{
+
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM",place_id];
     Place *individualPlace = [[Place alloc] init];
     static NSURLSession* sharedSessionMainQueue = nil;
@@ -253,7 +383,6 @@ int i = 0;
     NSURL *url = [NSURL URLWithString:urlString];
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    NSLog(@"RIGHT BEFORE CONNECTION");
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
      {
          if(error){
@@ -262,33 +391,17 @@ int i = 0;
          else{
              self.rawDetails = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
              NSDictionary *placeInfo = self.rawDetails[@"result"];
-             
-             //            NSLog(@"current place_id %@",placeInfo[@"place_id"]);
-             
-             NSLog(@"getJSONPlaceDetails 2");
              individualPlace.name = placeInfo[@"name"];
-             //            NSLog(@"this is the placeInfo %@",placeInfo[@"name"]);
              individualPlace.address = placeInfo[@"formatted_address"];
              individualPlace.location = CLLocationCoordinate2DMake([placeInfo[@"geometry"][@"location"][@"lat"] doubleValue], [placeInfo[@"geometry"][@"location"][@"lng"] doubleValue]);
-             //             NSLog(@"%s\n", object_getClassName([[individualPlace hasHours] class]));
              individualPlace.hasHours = !(placeInfo[@"opening_hours"][@"open_now"] == nil);
              if(individualPlace.hasHours)
                individualPlace.placeHours = placeInfo[@"opening_hours"][@"weekday_text"];
-                 
-                     
-             
-
-             //    NSLog(@"printing before %d",[individualPlace.hasHours ]);
-             
-             // NSLog(@"ALL KEYS %d",[photoDict isKindOfClass:[NSArray class]]);
              
              if(placeInfo[@"photos"] != nil)
              {
                  
                  individualPlace.hasPhotos = YES;
-                 
-                 //  NSLog(@"being run %@",self.rawDetails[@"result"][@"photos"][@"photo_reference"]);
-                 
                  
                  NSDictionary *photoDict = [[placeInfo objectForKey:@"photos"] objectAtIndex:0];
     
@@ -296,7 +409,6 @@ int i = 0;
                  
                  
                  individualPlace.urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/photo?photoreference=%@&key=AIzaSyD9CaxjnEVMMKNYKAlP0houvQpMXi9VYIM&sensor=false&maxwidth=600", photoRef];
-                 NSLog(@"URL TO TEST %@", individualPlace.urlString);
                  individualPlace.url = [NSURL URLWithString:individualPlace.urlString];
              }
              else
@@ -304,28 +416,18 @@ int i = 0;
              id rawIsOpen = placeInfo[@"opening_hours"][@"open_now"];
              individualPlace.isOpen = [rawIsOpen boolValue];
              individualPlace.place_id = placeInfo[@"place_id"];
-             NSLog(@"REACHING BOOLEAN");
              if(individualPlace.hasPhotos)
              {
-                 NSLog(@"HAS PHOTOS");
                  NSURLSessionDataTask *dataTask =
                  [sharedSessionMainQueue dataTaskWithURL:individualPlace.url completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
                      //now will be on main thread
                      individualPlace.imgData = data;
-                     BOOL hasData = individualPlace.imgData;
-                     NSLog(@"RAW DATA %d",hasData);
                      
-                     //NSString *temp =
-                     //individualPlace.base64Encoded = [individualPlace.imgData base64EncodedDataWithOptions:0];//[temp dataUsingEncoding:NSUTF8StringEncoding];
-                     
-                     // [self didReceiveData];
                      [self.placeDetails addObject:individualPlace];
                      
                      i+=1;
-                     NSLog(@"RAN METHOD getJSONDetails");
                      if(i<self.place_id_storage.count)
                      {
-                         NSLog(@"adding other places %d",i);
                          [self getJSONPlaceDetails:self.place_id_storage[i]];
                          
                      }
@@ -341,16 +443,12 @@ int i = 0;
              }
              else
              {
-                 NSLog(@"DOESNT HAVE IMAGE");
                  [self.placeDetails addObject:individualPlace];
                  
                  i+=1;
-                 NSLog(@"RAN METHOD i:%d and p_id:%lu",i,self.place_id_storage.count);
                  if(i<self.place_id_storage.count)
                  {
                      [self getJSONPlaceDetails:self.place_id_storage[i]];
-                     
-                     NSLog(@"RUN METHOD AFTERWARDS first %d",i);
                 }
                  else
                  {
@@ -362,12 +460,12 @@ int i = 0;
              
              
          }
-         NSLog(@"EDGE OF BLOCK");
      }];
-    NSLog(@"AFTER URL");
 }
 
-
+-(IBAction) performUnwind: (UIStoryboardSegue *)segue{
+    
+}
 
 -(void)didReceiveData{
     
@@ -375,14 +473,12 @@ int i = 0;
     
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         self.finishedLoadingData = YES;
-        NSLog(@"PERFORMING RELOAD");
         [self.tableView reloadData];
         int64_t delayInSeconds = 1.0f;
         dispatch_time_t popTime =
         dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             if (self.refreshControl) {
-                NSLog(@"IT FINISHED REFRESHING");
                 [self.favorites_manager.refreshControl endRefreshing];
             }
         });
@@ -391,11 +487,9 @@ int i = 0;
 }
 -(void)createFavoritePlaces
 {
-    NSLog(@"createFavoritePlaces");
     [self.placeDetails removeAllObjects];
     self.rawDetails = nil;
     [self getJSONPlaceDetails:self.place_id_storage[0]];
-    NSLog(@"RUN METHOD AFTERWARDS 2");
 }
 
 -(void)textFieldDidChange:(UITextField *)input{
@@ -410,7 +504,7 @@ int i = 0;
             Place *individualPlace = [[Place alloc] init];
             individualPlace.name = value[@"description"];
             individualPlace.location = CLLocationCoordinate2DMake([value[@"geometry"][@"location"][@"lat"] doubleValue], [value[@"geometry"][@"location"][@"lng"] doubleValue]);
-            individualPlace.isOpen = value[@"opening_hours"][@"open_now"];
+            individualPlace.isOpen = (BOOL)value[@"opening_hours"][@"open_now"];
             individualPlace.place_id = value[@"place_id"];
             [self.placesAsPropertiesTemp addObject:individualPlace];
         }
@@ -422,7 +516,6 @@ int i = 0;
         
         if(autocompleteTextField.text && autocompleteTextField.text.length > 0)
         {
-            //NSLog(@"THIS IS TO SEE IF IT ACTUALLY WORKS");
             self.autocompleteTableView.hidden = NO;
         }
         else{
@@ -437,12 +530,10 @@ int i = 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"CELL FOR ROW");
+
     //for autocomplete tableView formatting
     if([tableView isEqual:self.autocompleteTableView])
     {
-        NSLog(@"INDEX PATH ROW: %lu",indexPath.row);
-        NSLog(@"PAS P %lu",self.placesAsProperties.count);
         UITableViewCell *cell = nil;
         
         static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
@@ -451,15 +542,11 @@ int i = 0;
         if(cell == nil){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
         }
-        // NSLog(@"this is a test of 3.0 status %lu",indexPath.row);
-//        cell.opaque = YES;
         
         cell.shouldIndentWhileEditing = YES;
         cell.backgroundColor = [UIColor clearColor];
             cell.imageView.frame = CGRectOffset(cell.frame, 90, 90);
-        NSLog(@"BEFORE METHOD RUN");
         cell.textLabel.text = [[self.placesAsProperties objectAtIndex:indexPath.row] name];
-        NSLog(@"AFTER METHOD RUN");
         if([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
             cell.preservesSuperviewLayoutMargins = NO;
         UIToolbar *translucentView = [[UIToolbar alloc] initWithFrame:CGRectZero];
@@ -482,7 +569,7 @@ int i = 0;
             self.tableView.estimatedRowHeight = 205.0;
             
         }
-        NSLog(@"CELL FOR ROW END");
+        if(indexPath.section == self.place_id_storage.count-1)
         cell.hidden = YES;
         return cell;
     }
@@ -491,14 +578,50 @@ int i = 0;
     
 }
 
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    if([tableView isEqual:self.tableView])
+//    {
+//        if(footerView == nil) {
+//            //allocate the view if it doesn't exist yet
+//            footerView  = [[UIView alloc] init];
+//            
+//            //we would like to show a gloosy red button, so get the image first
+//            UIImage *image = [[UIImage imageNamed:@"button_red.png"]
+//                              stretchableImageWithLeftCapWidth:8 topCapHeight:8];
+//            
+//            //create the button
+//            UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//            [button setBackgroundImage:image forState:UIControlStateNormal];
+//            
+//            //the button should be as big as a table view cell
+//            [button setFrame:CGRectMake(10, 3, 300, 44)];
+//            
+//            //set title, font size and font color
+//            [button setTitle:@"Remove" forState:UIControlStateNormal];
+//            [button.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+//            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            
+//            //set action of the button
+//            [button addTarget:self action:@selector(removeAction:)
+//             forControlEvents:UIControlEventTouchUpInside];
+//            
+//            //add the button to the view
+//            [footerView addSubview:button];
+//        }
+//        
+//        //return the view for the footer
+//        return footerView;
+//    }
+//    
+//    return nil;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(![tableView isEqual:self.autocompleteTableView])
-        return 205;//self.cellHeight;
+        return 205;
     else
         return 44;
-//    return UITableViewAutomaticDimension;
     
 }
 
@@ -510,10 +633,7 @@ int i = 0;
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     placeTableCell *cell= (placeTableCell *)[self.tableView cellForRowAtIndexPath:indexPath];
     NSString *placeHoursString = [[self.placeDetails[indexPath.section] placeHours] componentsJoinedByString:@"\n"];
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    [gregorian setFirstWeekday:1]; // Sunday == 1, Saturday == 7
-    NSUInteger adjustedWeekdayOrdinal = [gregorian ordinalityOfUnit:NSWeekdayCalendarUnit inUnit:NSWeekCalendarUnit forDate:[NSDate date]];
-    //int weekday = (int)[comps weekday];
+    
     CATransition *transition = [CATransition animation];
     transition.duration = 0.25;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -523,30 +643,13 @@ int i = 0;
 
     if(cell.placeHours.hidden)
     {
-        NSLog(@"adjustedWeekdayOrdinal %lu",adjustedWeekdayOrdinal);
-        NSLog(@"firstWeekday %lu",gregorian.firstWeekday);
-//         if(adjustedWeekdayOrdinal < 7 && adjustedWeekdayOrdinal > 1)
-//        cell.placeDescription.text = placeHoursTemp[adjustedWeekdayOrdinal-2];
-//        else if(adjustedWeekdayOrdinal < 2)
-//            cell.placeDescription.text = placeHoursTemp[6];
-//        else
-//            cell.placeDescription.text = placeHoursTemp[5];
-        NSLog(@"THIS IS NAME: %@",cell.placeName.text);
-        NSLog(@"THIS IS TAG: %lu",cell.noImageIndicator.tag);
         
-               cell.placeImage.hidden = YES;
+        cell.placeImage.hidden = YES;
         cell.noImageIndicator.hidden = YES;
         cell.placeHours.hidden = NO;
-       // cell.placeHours.text = placeHoursString;
         
         if(placeHoursString == nil)
             cell.placeHours.text = @"No Data";
-//        else
-//        {
-//            self.cellHeight = 290;
-//            [self.tableView beginUpdates];
-//            [self.tableView endUpdates];
-//        }
         
     }
     else
@@ -555,9 +658,6 @@ int i = 0;
             cell.noImageIndicator.hidden = NO;
         cell.placeHours.hidden = YES;
         cell.placeImage.hidden = NO;
-//        self.cellHeight = 205;
-//        [self.tableView beginUpdates];
-//        [self.tableView endUpdates];
         
     }
     
@@ -565,60 +665,31 @@ int i = 0;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(placeTableCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"WILL DISPLAY CELL START");
+
     if(![tableView isEqual:self.autocompleteTableView]&&self.finishedLoadingData){
-//        cell.placeDescription.hidden = NO;
-//        cell.placeName.hidden = NO;
-//        cell.placeImage.hidden = NO;
-//        cell.isOpenLabel.hidden = NO;
         cell.hidden = NO;
-        //        NSLog(@"this is a test of 2.0 status %lu",indexPath.row);
-        //        CGRect frame = CGRectOffset([tableView rectForRowAtIndexPath:indexPath], 0.0, 90.8);
-        //    cell.backgroundColor = [[UIView alloc] initWithFrame: frame ];
         cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
-        NSLog(@"FIRST BREAKPOINT");
-        NSLog(@"placeDetails size: %lu and %lu and %lu",self.placeDetails.count,indexPath.section, self.place_id_storage.count);
+        
         
         if([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==YES)
         {
-            NSLog(@"SECOND BREAKPOINT");
+            
             cell.isOpenLabel.backgroundColor = UIColorFromRGB(0x39FF14);//[UIColor colorWithRed:57
-//        green:255
-//        blue:20
-//        alpha:.9];//0x84E80C);
-//            cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
             cell.isOpenLabel.text = @"OPEN";
-//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
-           // cell.isOpenLabel.frame = CGRectMake(275,142, width,10);
-
-
 
         }
         else if(([[self.placeDetails objectAtIndex:indexPath.section] isOpen]==NO)&&([[self.placeDetails objectAtIndex:indexPath.section] hasHours]==YES))
         {
-            NSLog(@"THIRD BREAKPOINT");
-            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xff0000);//[UIColor colorWithRed:204
-//                                                               green:73
-//                                                                blue:87
-//                                                              alpha:.8];////0xFF6853);
-//            cell.isOpenLabel.textAlignment = NSTextAlignmentCenter;
+            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xff0000);
             cell.isOpenLabel.text = @"CLOSED";
-//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
-//            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
+
         }
         else
         {
-            NSLog(@"FOURTH BREAKPOINT");
-            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xC0C0C0);//[UIColor colorWithRed:192
-//                                                               green:192
-//                                                                blue:192
-//                                                               alpha:.65];
+            cell.isOpenLabel.backgroundColor = UIColorFromRGB(0xC0C0C0);
             
             cell.isOpenLabel.text = @"NO DATA";
-//            CGFloat width =  ceil([cell.isOpenLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:21.0]}].width);
-//            cell.isOpenLabel.frame = CGRectMake(275,142, width,21);
         }
-        NSLog(@"FIFTH BREAKPOINT");
         self.currentSection = indexPath.section;
          cell.backgroundColor = [UIColor colorWithWhite:1.0 alpha:.65];
         cell.placeName.text = [[self.placeDetails objectAtIndex:indexPath.section] name];
@@ -628,8 +699,7 @@ int i = 0;
         tapped.numberOfTapsRequired = 1;
         [cell.isOpenLabel setUserInteractionEnabled:YES];
         [cell addGestureRecognizer:tapped];
-         NSLog(@"SIXTH BREAKPOINT");
-         [tapped setCancelsTouchesInView:NO];
+        [tapped setCancelsTouchesInView:NO];
         cell.placeImage.clipsToBounds = YES;
         cell.placeHours.text = [[self.placeDetails[indexPath.section] placeHours] componentsJoinedByString:@"\n"];
         cell.placeHours.hidden = YES;
@@ -641,7 +711,6 @@ int i = 0;
        
         if([[self.placeDetails objectAtIndex:indexPath.section] imgData]!=nil)
         {
-            NSLog(@"if placeDetails %@",[[self.placeDetails objectAtIndex:indexPath.section] name]);
             cell.placeImage.image = [UIImage imageWithData:[[self.placeDetails objectAtIndex:indexPath.section] imgData]];
             cell.placeImage.hidden = NO;
             cell.noImageIndicator.hidden = YES;
@@ -649,8 +718,7 @@ int i = 0;
         }
         else
         {
-//            cell.placeImage.image = nil;
-//            cell.placeImage.hidden = YES;
+
             cell.placeImage.image = [self imageWithColor:[UIColor clearColor]];
             cell.noImageIndicator.text = [[self.placeDetails objectAtIndex:indexPath.section] name];
             cell.noImageIndicator.adjustsFontSizeToFitWidth = YES;
@@ -658,12 +726,10 @@ int i = 0;
             cell.noImageIndicator.tag = 1;
             cell.noImageIndicator.backgroundColor = [cell.isOpenLabel.backgroundColor colorWithAlphaComponent:0.5f];
         }
-        //        if(!cell.placeImage.image)
 
     }
     if(self.googlePowered.hidden == YES)
         self.googlePowered.hidden = NO;
-    NSLog(@"WILL DISPLAY CELL END");
 }
 
 
@@ -706,14 +772,6 @@ int i = 0;
 
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   
-//    if([tableView isEqual:self.autocompleteTableView])
-//        return [self.placesAsProperties count];
-//    else if(self.placeDetails.count>0)
-//        return 1;
-//    else
-//        return 0;
-    
     
     if([tableView isEqual:self.autocompleteTableView])
         return [self.placesAsProperties count];
@@ -730,17 +788,9 @@ int i = 0;
     else
         return self.place_id_storage.count;
     
-//    if([tableView isEqual:self.autocompleteTableView])
-//        return 1;
-//    else if(self.placeDetails.count>0)
-//        return self.place_id_storage.count;
-//    else
-//        return 0;
 }
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath{
-    NSLog(@"RECEIVED TAP 2.0");
     if([tableView isEqual:self.autocompleteTableView]){
-      //  UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath];
         if(![self.place_id_storage containsObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id]]){
             [self.place_id_storage insertObject:[[self.placesAsProperties objectAtIndex:indexPath.row] place_id] atIndex:0];
             self.autocompleteTextField.text = @"";
@@ -748,8 +798,7 @@ int i = 0;
             [self createFavoritePlaces];
         }
         self.autocompleteTableView.hidden = YES;
-        
-        
+ 
     }
 }
 
