@@ -422,7 +422,7 @@ int i = 0;
                  [sharedSessionMainQueue dataTaskWithURL:individualPlace.url completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
                      //now will be on main thread
                      individualPlace.imgData = data;
-                     
+                     BOOL hasData = individualPlace.imgData;
                      [self.placeDetails addObject:individualPlace];
                      
                      i+=1;
@@ -504,7 +504,7 @@ int i = 0;
             Place *individualPlace = [[Place alloc] init];
             individualPlace.name = value[@"description"];
             individualPlace.location = CLLocationCoordinate2DMake([value[@"geometry"][@"location"][@"lat"] doubleValue], [value[@"geometry"][@"location"][@"lng"] doubleValue]);
-            individualPlace.isOpen = (BOOL)value[@"opening_hours"][@"open_now"];
+            individualPlace.isOpen = value[@"opening_hours"][@"open_now"];
             individualPlace.place_id = value[@"place_id"];
             [self.placesAsPropertiesTemp addObject:individualPlace];
         }
